@@ -302,27 +302,51 @@ body {
 .gallery-container, .video-container {
     position: relative;
     max-width: 100%;
-    padding: 0 60px; /* Add padding for arrow space */
+    padding: 0 80px; /* Increased padding to center content between arrows */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .gallery-wrapper, .video-wrapper {
     overflow: hidden;
     border-radius: 15px;
+    width: 100%;
+    max-width: 1000px; /* Limit maximum width for better centering */
 }
 
 .gallery-grid, .video-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Flexible columns that adapt to content */
     gap: 1.5rem;
     transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    min-height: 400px;
     max-width: 100%;
 }
 
-/* Override for desktop to ensure exactly 6 columns when 6 items are visible */
+/* Gallery: 2 rows by 3 columns (6 items total) */
+.gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    min-height: 400px;
+    aspect-ratio: 3/2; /* Maintain 3:2 ratio for the grid */
+}
+
+/* Video: 2 rows by 5 columns (10 items total) */
+.video-grid {
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, auto);
+    min-height: 320px;
+}
+
+/* Override for desktop to maintain grid structure */
 @media (min-width: 769px) {
-    .gallery-grid, .video-grid {
-        grid-template-columns: repeat(6, 1fr);
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+    }
+    
+    .video-grid {
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(2, 1fr);
     }
 }
 
@@ -376,11 +400,11 @@ body {
 }
 
 .prev-btn {
-    left: -60px; /* Just outside the left margin */
+    left: -80px; /* Position outside the increased padding */
 }
 
 .next-btn {
-    right: -60px; /* Just outside the right margin */
+    right: -80px; /* Position outside the increased padding */
 }
 
 /* Fallback styles for navigation buttons */
@@ -482,8 +506,20 @@ body {
 
 /* Responsive Carousel */
 @media (max-width: 768px) {
-    .gallery-grid, .video-grid {
-        grid-template-columns: repeat(3, 1fr); /* 3 items on tablet */
+    .gallery-container, .video-container {
+        padding: 0 70px; /* Adjust padding for tablet */
+    }
+    
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: auto;
+        gap: 1.5rem;
+        aspect-ratio: unset; /* Remove aspect ratio on smaller screens */
+    }
+    
+    .video-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
         gap: 1.5rem;
     }
     
@@ -494,11 +530,11 @@ body {
     }
     
     .prev-btn {
-        left: -50px;
+        left: -60px;
     }
     
     .next-btn {
-        right: -50px;
+        right: -60px;
     }
 }
 
@@ -541,6 +577,8 @@ body {
     box-shadow: var(--shadow);
     transition: var(--transition);
     cursor: pointer;
+    height: fit-content;
+    min-height: 250px;
 }
 
 .video-item:hover {
@@ -551,11 +589,13 @@ body {
 .video-thumbnail {
     position: relative;
     overflow: hidden;
+    height: 150px;
+    background-color: #f0f0f0;
 }
 
 .video-thumbnail img {
     width: 100%;
-    height: 200px;
+    height: 150px;
     object-fit: cover;
     transition: var(--transition);
 }
@@ -566,9 +606,40 @@ body {
 
 .video-thumbnail video {
     width: 100%;
-    height: 200px;
+    height: 150px !important;
     object-fit: cover;
-    border-radius: 10px;
+    display: block;
+    background-color: #f0f0f0;
+    /* Add a visible border for debugging */
+    border: 2px solid #ffd700;
+}
+
+/* Fallback when video doesn't load */
+.video-thumbnail video:invalid,
+.video-thumbnail video:not([src]) {
+    background-image: linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
+                      linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), 
+                      linear-gradient(45deg, transparent 75%, #f0f0f0 75%), 
+                      linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+
+/* Alternative: Add a loading text */
+.video-thumbnail::before {
+    content: "Loading video...";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #666;
+    font-size: 0.8rem;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.video-thumbnail video[readyState="4"]::before {
+    display: none;
 }
 
 .play-button {
@@ -974,11 +1045,19 @@ body {
     }
     
     .gallery-container, .video-container {
-        padding: 0 60px; /* Increased padding for mobile arrows */
+        padding: 0 60px; /* Adjust padding for mobile */
     }
     
-    .gallery-grid, .video-grid {
+    .gallery-grid {
         grid-template-columns: repeat(2, 1fr); /* 2 items on mobile */
+        grid-template-rows: auto;
+        gap: 1rem;
+        aspect-ratio: unset;
+    }
+    
+    .video-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 items on mobile */
+        grid-template-rows: auto;
         gap: 1rem;
     }
     
@@ -1002,88 +1081,46 @@ body {
     }
 }
 
-/* Smooth scrolling */
-html {
-    scroll-behavior: smooth;
+/* CRITICAL FIXES - Override any duplicates */
+.gallery-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    grid-template-rows: repeat(2, auto) !important;
+    gap: 1rem !important;
+    min-height: 400px !important;
 }
 
-/* Loading animation for images */
-img {
-    transition: opacity 0.3s ease;
+.video-grid {
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    grid-template-rows: repeat(2, auto) !important;
+    gap: 1rem !important;
+    min-height: 320px !important;
 }
 
-img[data-src] {
-    opacity: 0;
+.video-item {
+    background: var(--white) !important;
+    border-radius: 15px !important;
+    box-shadow: var(--shadow) !important;
+    overflow: hidden !important;
+    transition: var(--transition) !important;
+    display: block !important;
+    visibility: visible !important;
 }
 
-img[data-loaded="true"] {
-    opacity: 1;
+.video-thumbnail {
+    position: relative !important;
+    overflow: hidden !important;
+    height: 150px !important;
+    background-color: #f0f0f0 !important;
+    display: block !important;
+    visibility: visible !important;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--primary-color);
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--secondary-color);
-}
-
-/* SEO and Accessibility Improvements */
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
-
-/* Skip link for keyboard navigation */
-.skip-link {
-    position: absolute;
-    top: -40px;
-    left: 6px;
-    background: var(--primary-color);
-    color: var(--secondary-color);
-    padding: 8px;
-    z-index: 9999;
-    text-decoration: none;
-    border-radius: 4px;
-}
-
-.skip-link:focus {
-    top: 6px;
-}
-
-/* Enhanced focus states for accessibility */
-a:focus,
-button:focus,
-input:focus,
-textarea:focus,
-select:focus {
-    outline: 2px solid var(--primary-color);
-    outline-offset: 2px;
-}
-
-/* Carousel controlled visibility */
-.video-item.hidden {
-    display: none !important;
-}
-
-/* Initially show all items, carousel will control visibility */
-.video-item:not(.hidden) {
-    display: block;
+.video-thumbnail video {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+    visibility: visible !important;
 }

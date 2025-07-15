@@ -195,66 +195,6 @@ const videoData = [
         description: 'Adding sparkle and glamour to cakes',
         videoSrc: 'vids/optimized/vid17.mp4',
         isLocal: true
-    },
-    {
-        title: 'Modeling Paste',
-        description: 'Creating figures and decorative elements',
-        videoSrc: 'vids/optimized/vid18.mp4',
-        isLocal: true
-    },
-    {
-        title: 'Royal Icing',
-        description: 'Traditional royal icing techniques',
-        videoSrc: 'vids/optimized/vid19.mp4',
-        isLocal: true
-    },
-    {
-        title: 'Isomalt Work',
-        description: 'Clear sugar decorations and effects',
-        videoSrc: 'vids/optimized/vid20.mp4',
-        isLocal: true
-    },
-    {
-        title: 'Airbrush Techniques',
-        description: 'Professional airbrush finishing',
-        videoSrc: 'vids/optimized/vid21.mp4',
-        isLocal: true
-    },
-    {
-        title: 'Packaging & Transport',
-        description: 'Safe delivery of finished cakes',
-        videoSrc: 'vids/optimized/vid22.mp4',
-        isLocal: true
-    },
-    {
-        title: 'Time Management',
-        description: 'Efficient workflow for large orders',
-        videoSrc: 'vids/optimized/vid23.mp4',
-        isLocal: true
-    },
-    {
-        title: 'Troubleshooting',
-        description: 'Fixing common baking problems',
-        videoSrc: 'vids/optimized/vid24.mp4',
-        isLocal: true
-    },
-    {
-        title: 'Client Consultation',
-        description: 'Working with clients to design dreams',
-        videoSrc: 'vids/optimized/vid25.mp4',
-        isLocal: true
-    },
-    {
-        title: 'Advanced Techniques',
-        description: 'Master-level decorating methods',
-        videoSrc: 'vids/optimized/vid26.mp4',
-        isLocal: true
-    },
-    {
-        title: 'Behind the Business',
-        description: 'The story behind Luxurious Cakes',
-        videoSrc: 'vids/optimized/vid27.mp4',
-        isLocal: true
     }
 ];
 
@@ -530,11 +470,11 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
     
-    // Initialize gallery carousel (show 6 images per page)
+    // Initialize gallery carousel (show 6 images per page: 3×2 grid)
     const galleryCarousel = new Carousel('.gallery-container', 6);
     
-    // Initialize video carousel (show 6 videos per page)  
-    const videoCarousel = new Carousel('.video-container', 6);
+    // Initialize video carousel (show 10 videos per page: 5×2 grid)  
+    const videoCarousel = new Carousel('.video-container', 10);
     
     // Make carousels globally accessible for future expansion
     window.galleryCarousel = galleryCarousel;
@@ -630,12 +570,19 @@ class Carousel {
     }
     
     getItemsPerPage() {
-        // Determine items per page based on screen size
+        // Determine items per page based on screen size and section
         const width = window.innerWidth;
+        const isVideoSection = this.container.classList.contains('video-container') || 
+                               this.container.querySelector('.video-grid');
+        
         if (width <= 375) return 1;      // Extra small screens
         if (width <= 480) return 2;      // Small screens  
-        if (width <= 768) return 3;      // Tablets
-        return 6;                        // Desktop - always 6
+        if (width <= 768) {              // Tablets
+            return isVideoSection ? 6 : 3;  // Video: 3×2, Gallery: 3×1
+        }
+        
+        // Desktop - Video: 5×2=10, Gallery: 3×2=6
+        return isVideoSection ? 10 : 6;
     }
     
     bindResize() {
