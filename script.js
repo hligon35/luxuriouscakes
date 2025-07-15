@@ -3,7 +3,6 @@ const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
 const navLinks = document.querySelectorAll('.nav-link');
 const galleryItems = document.querySelectorAll('.gallery-item');
-const filterBtns = document.querySelectorAll('.filter-btn');
 const videoItems = document.querySelectorAll('.video-item');
 const contactForm = document.querySelector('.contact-form');
 const imageModal = document.getElementById('imageModal');
@@ -75,39 +74,6 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Gallery filtering
-filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        // Remove active class from all buttons
-        filterBtns.forEach(b => b.classList.remove('active'));
-        // Add active class to clicked button
-        btn.classList.add('active');
-        
-        const filter = btn.getAttribute('data-filter');
-        
-        galleryItems.forEach((item, index) => {
-            const category = item.getAttribute('data-category');
-            
-            // Add fade out animation
-            item.style.opacity = '0';
-            item.style.transform = 'translateY(20px)';
-            
-            setTimeout(() => {
-                if (filter === 'all' || category === filter) {
-                    item.style.display = 'block';
-                    // Animate in with delay
-                    setTimeout(() => {
-                        item.style.opacity = '1';
-                        item.style.transform = 'translateY(0)';
-                    }, index * 100);
-                } else {
-                    item.style.display = 'none';
-                }
-            }, 300);
-        });
-    });
-});
-
 // Gallery image modal
 galleryItems.forEach(item => {
     item.addEventListener('click', () => {
@@ -129,19 +95,166 @@ galleryItems.forEach(item => {
 // Video modal functionality
 const videoData = [
     {
-        title: 'Cake Decorating Masterclass',
-        description: 'Watch as we create intricate buttercream roses',
-        videoId: 'dQw4w9WgXcQ' // Replace with actual video IDs
+        title: 'Baking Basics',
+        description: 'Essential techniques for perfect baking',
+        videoSrc: 'vids/optimized/vid1.mp4',
+        isLocal: true
     },
     {
-        title: 'French Pastry Techniques',
-        description: 'Learn the secrets behind perfect croissants',
-        videoId: 'dQw4w9WgXcQ' // Replace with actual video IDs
+        title: 'Mixing Techniques',
+        description: 'Professional mixing for perfect texture',
+        videoSrc: 'vids/optimized/vid2.mp4',
+        isLocal: true
     },
     {
-        title: 'Wedding Cake Assembly',
-        description: 'Behind the scenes of creating a dream wedding cake',
-        videoId: 'dQw4w9WgXcQ' // Replace with actual video IDs
+        title: 'Decorating Basics',
+        description: 'Learn fundamental decorating skills',
+        videoSrc: 'vids/optimized/vid3.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Buttercream Mastery',
+        description: 'Perfect buttercream every time',
+        videoSrc: 'vids/optimized/vid4.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Fondant Work',
+        description: 'Smooth fondant application techniques',
+        videoSrc: 'vids/optimized/vid5.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Piping Techniques',
+        description: 'Beautiful piping patterns and borders',
+        videoSrc: 'vids/optimized/vid6.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Sugar Flowers',
+        description: 'Creating delicate sugar flower decorations',
+        videoSrc: 'vids/optimized/vid7.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Chocolate Work',
+        description: 'Tempering and molding chocolate elements',
+        videoSrc: 'vids/optimized/vid8.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Tier Assembly',
+        description: 'Professional multi-tier cake construction',
+        videoSrc: 'vids/optimized/vid9.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Color Mixing',
+        description: 'Achieving perfect color matches in icing',
+        videoSrc: 'vids/optimized/vid10.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Texture Techniques',
+        description: 'Creating realistic textures on cakes',
+        videoSrc: 'vids/optimized/vid11.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Wedding Cake Prep',
+        description: 'Planning and preparing for wedding orders',
+        videoSrc: 'vids/optimized/vid12.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Birthday Themes',
+        description: 'Creative birthday cake design ideas',
+        videoSrc: 'vids/optimized/vid13.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Pastry Basics',
+        description: 'French pastry fundamentals',
+        videoSrc: 'vids/optimized/vid14.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Cream Fillings',
+        description: 'Perfect creams and fillings for layers',
+        videoSrc: 'vids/optimized/vid15.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Ganache Glazing',
+        description: 'Smooth and glossy ganache techniques',
+        videoSrc: 'vids/optimized/vid16.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Edible Glitter',
+        description: 'Adding sparkle and glamour to cakes',
+        videoSrc: 'vids/optimized/vid17.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Modeling Paste',
+        description: 'Creating figures and decorative elements',
+        videoSrc: 'vids/optimized/vid18.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Royal Icing',
+        description: 'Traditional royal icing techniques',
+        videoSrc: 'vids/optimized/vid19.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Isomalt Work',
+        description: 'Clear sugar decorations and effects',
+        videoSrc: 'vids/optimized/vid20.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Airbrush Techniques',
+        description: 'Professional airbrush finishing',
+        videoSrc: 'vids/optimized/vid21.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Packaging & Transport',
+        description: 'Safe delivery of finished cakes',
+        videoSrc: 'vids/optimized/vid22.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Time Management',
+        description: 'Efficient workflow for large orders',
+        videoSrc: 'vids/optimized/vid23.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Troubleshooting',
+        description: 'Fixing common baking problems',
+        videoSrc: 'vids/optimized/vid24.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Client Consultation',
+        description: 'Working with clients to design dreams',
+        videoSrc: 'vids/optimized/vid25.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Advanced Techniques',
+        description: 'Master-level decorating methods',
+        videoSrc: 'vids/optimized/vid26.mp4',
+        isLocal: true
+    },
+    {
+        title: 'Behind the Business',
+        description: 'The story behind Luxurious Cakes',
+        videoSrc: 'vids/optimized/vid27.mp4',
+        isLocal: true
     }
 ];
 
@@ -153,7 +266,15 @@ videoItems.forEach((item, index) => {
         
         videoModalTitle.textContent = title;
         videoModalDescription.textContent = description;
-        modalVideo.src = `https://www.youtube.com/embed/${video.videoId}?autoplay=1`;
+        
+        // For local videos, replace the iframe with a video element
+        const videoContainer = modalVideo.parentElement;
+        videoContainer.innerHTML = `
+            <video controls autoplay style="width: 100%; height: 100%; max-width: 800px;">
+                <source src="${video.videoSrc}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        `;
         
         videoModal.style.display = 'block';
         document.body.style.overflow = 'hidden';
@@ -336,16 +457,6 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Observe elements for scroll animations
-document.addEventListener('DOMContentLoaded', () => {
-    const animateElements = document.querySelectorAll('.about-content, .skill-item, .gallery-item, .video-item, .contact-content');
-    animateElements.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        observer.observe(el);
-    });
-});
-
 // Parallax effect for hero section
 window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
@@ -411,7 +522,24 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.remove('loading');
     });
     
-    // Initialize any other features
+    // Initialize scroll animations
+    const animateElements = document.querySelectorAll('.about-content, .skill-item, .gallery-item, .video-item, .contact-content');
+    animateElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        observer.observe(el);
+    });
+    
+    // Initialize gallery carousel (show 6 images per page)
+    const galleryCarousel = new Carousel('.gallery-container', 6);
+    
+    // Initialize video carousel (show 6 videos per page)  
+    const videoCarousel = new Carousel('.video-container', 6);
+    
+    // Make carousels globally accessible for future expansion
+    window.galleryCarousel = galleryCarousel;
+    window.videoCarousel = videoCarousel;
+    
     console.log('Luxurious Cakes website loaded successfully!');
 });
 
@@ -476,3 +604,185 @@ focusStyles.textContent = `
     }
 `;
 document.head.appendChild(focusStyles);
+
+// Gallery and Video Carousel Functionality
+class Carousel {
+    constructor(containerSelector, itemsPerPage = 6) {
+        this.container = document.querySelector(containerSelector);
+        
+        if (!this.container) {
+            console.error('Container not found for:', containerSelector);
+            return;
+        }
+        
+        this.grid = this.container.querySelector('.gallery-grid, .video-grid');
+        this.items = this.grid.querySelectorAll('.gallery-item, .video-item:not(.placeholder-item)');
+        this.prevBtn = this.container.querySelector('.prev-btn');
+        this.nextBtn = this.container.querySelector('.next-btn');
+        this.indicators = this.container.querySelector('.gallery-indicators, .video-indicators');
+        
+        this.itemsPerPage = this.getItemsPerPage();
+        this.currentPage = 0;
+        this.totalPages = Math.ceil(this.items.length / this.itemsPerPage);
+        
+        this.init();
+        this.bindResize();
+    }
+    
+    getItemsPerPage() {
+        // Determine items per page based on screen size
+        const width = window.innerWidth;
+        if (width <= 375) return 1;      // Extra small screens
+        if (width <= 480) return 2;      // Small screens  
+        if (width <= 768) return 3;      // Tablets
+        return 6;                        // Desktop - always 6
+    }
+    
+    bindResize() {
+        window.addEventListener('resize', () => {
+            const newItemsPerPage = this.getItemsPerPage();
+            if (newItemsPerPage !== this.itemsPerPage) {
+                this.itemsPerPage = newItemsPerPage;
+                this.totalPages = Math.ceil(this.items.length / this.itemsPerPage);
+                this.currentPage = 0; // Reset to first page
+                this.createIndicators();
+                this.showPage(0);
+            }
+        });
+    }
+    
+    init() {
+        this.createIndicators();
+        this.bindEvents();
+        this.updateNavigation();
+        this.showPage(0);
+    }
+    
+    createIndicators() {
+        if (!this.indicators) return;
+        
+        this.indicators.innerHTML = '';
+        for (let i = 0; i < this.totalPages; i++) {
+            const indicator = document.createElement('span');
+            indicator.className = 'indicator';
+            indicator.dataset.slide = i;
+            if (i === 0) indicator.classList.add('active');
+            this.indicators.appendChild(indicator);
+        }
+    }
+    
+    bindEvents() {
+        if (this.prevBtn) {
+            this.prevBtn.addEventListener('click', () => this.previousPage());
+        }
+        
+        if (this.nextBtn) {
+            this.nextBtn.addEventListener('click', () => this.nextPage());
+        }
+        
+        if (this.indicators) {
+            this.indicators.addEventListener('click', (e) => {
+                if (e.target.classList.contains('indicator')) {
+                    const page = parseInt(e.target.dataset.slide);
+                    this.showPage(page);
+                }
+            });
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (this.container.matches(':hover')) {
+                if (e.key === 'ArrowLeft') this.previousPage();
+                if (e.key === 'ArrowRight') this.nextPage();
+            }
+        });
+        
+        // Touch/swipe support
+        let startX = 0;
+        let endX = 0;
+        
+        this.grid.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+        
+        this.grid.addEventListener('touchend', (e) => {
+            endX = e.changedTouches[0].clientX;
+            const diff = startX - endX;
+            
+            if (Math.abs(diff) > 50) { // Minimum swipe distance
+                if (diff > 0) {
+                    this.nextPage();
+                } else {
+                    this.previousPage();
+                }
+            }
+        });
+    }
+    
+    showPage(page) {
+        if (page < 0 || page >= this.totalPages) return;
+        
+        this.currentPage = page;
+        
+        // Hide all items first
+        this.items.forEach((item, index) => {
+            item.classList.add('hidden');
+        });
+        
+        // Show items for current page
+        const startIndex = page * this.itemsPerPage;
+        const endIndex = Math.min(startIndex + this.itemsPerPage, this.items.length);
+        
+        for (let i = startIndex; i < endIndex; i++) {
+            if (this.items[i]) {
+                this.items[i].classList.remove('hidden');
+                this.items[i].style.animation = 'fadeInUp 0.6s ease forwards';
+            }
+        }
+        
+        this.updateIndicators();
+        this.updateNavigation();
+    }
+    
+    updateIndicators() {
+        if (!this.indicators) return;
+        
+        const indicators = this.indicators.querySelectorAll('.indicator');
+        indicators.forEach((indicator, index) => {
+            indicator.classList.toggle('active', index === this.currentPage);
+        });
+    }
+    
+    updateNavigation() {
+        if (this.prevBtn) {
+            this.prevBtn.style.opacity = this.currentPage === 0 ? '0.5' : '1';
+            this.prevBtn.disabled = this.currentPage === 0;
+        }
+        
+        if (this.nextBtn) {
+            this.nextBtn.style.opacity = this.currentPage === this.totalPages - 1 ? '0.5' : '1';
+            this.nextBtn.disabled = this.currentPage === this.totalPages - 1;
+        }
+    }
+    
+    nextPage() {
+        if (this.currentPage < this.totalPages - 1) {
+            this.showPage(this.currentPage + 1);
+        }
+    }
+    
+    previousPage() {
+        if (this.currentPage > 0) {
+            this.showPage(this.currentPage - 1);
+        }
+    }
+    
+    addItems(newItems) {
+        // Method to add new items dynamically
+        newItems.forEach(item => this.grid.appendChild(item));
+        this.items = this.grid.querySelectorAll('.gallery-item, .video-item:not(.placeholder-item)');
+        this.totalPages = Math.ceil(this.items.length / this.itemsPerPage);
+        this.createIndicators();
+        this.updateNavigation();
+    }
+}
