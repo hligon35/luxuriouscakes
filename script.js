@@ -470,15 +470,19 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
     
-    // Initialize gallery carousel (show 6 images per page: 3×2 grid)
-    const galleryCarousel = new Carousel('.gallery-container', 6);
+    // DISABLED CAROUSEL - Show all items in grid instead
+    // const galleryCarousel = new Carousel('.gallery-container', 6);
+    // const videoCarousel = new Carousel('.video-container', 10);
+    // window.galleryCarousel = galleryCarousel;
+    // window.videoCarousel = videoCarousel;
     
-    // Initialize video carousel (show 10 videos per page: 5×2 grid)  
-    const videoCarousel = new Carousel('.video-container', 10);
-    
-    // Make carousels globally accessible for future expansion
-    window.galleryCarousel = galleryCarousel;
-    window.videoCarousel = videoCarousel;
+    // Force all items to be visible
+    document.querySelectorAll('.gallery-item, .video-item').forEach(item => {
+        item.classList.remove('hidden');
+        item.style.display = 'block';
+        item.style.visibility = 'visible';
+        item.style.opacity = '1';
+    });
     
     console.log('Luxurious Cakes website loaded successfully!');
 });

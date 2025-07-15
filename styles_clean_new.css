@@ -315,14 +315,39 @@ body {
     max-width: 1000px; /* Limit maximum width for better centering */
 }
 
+.gallery-grid, .video-grid {
+    display: grid;
+    gap: 1.5rem;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    max-width: 100%;
+}
 
 /* Gallery: 2 rows by 3 columns (6 items total) */
+.gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    min-height: 400px;
+    aspect-ratio: 3/2; /* Maintain 3:2 ratio for the grid */
+}
 
 /* Video: 2 rows by 5 columns (10 items total) */
+.video-grid {
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, auto);
+    min-height: 320px;
+}
 
 /* Override for desktop to maintain grid structure */
 @media (min-width: 769px) {
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+    }
     
+    .video-grid {
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+    }
 }
 
 /* Hide items that are not in current page */
@@ -485,7 +510,18 @@ body {
         padding: 0 70px; /* Adjust padding for tablet */
     }
     
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: auto;
+        gap: 1.5rem;
+        aspect-ratio: unset; /* Remove aspect ratio on smaller screens */
+    }
     
+    .video-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
     
     .prev-btn, .next-btn {
         width: 40px;
@@ -508,6 +544,9 @@ body {
         padding: 0 40px;
     }
     
+    .gallery-grid, .video-grid {
+        grid-template-columns: 1fr; /* 1 item on very small screens */
+    }
     
     .gallery-nav-btn, .video-nav-btn {
         width: 35px;
@@ -966,6 +1005,10 @@ body {
         gap: 2rem;
     }
     
+    .gallery-grid, .video-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 items on tablet */
+        gap: 1rem;
+    }
     
     .contact-content {
         grid-template-columns: 1fr;
@@ -1005,7 +1048,18 @@ body {
         padding: 0 60px; /* Adjust padding for mobile */
     }
     
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 items on mobile */
+        grid-template-rows: auto;
+        gap: 1rem;
+        aspect-ratio: unset;
+    }
     
+    .video-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 items on mobile */
+        grid-template-rows: auto;
+        gap: 1rem;
+    }
     
     .gallery-nav-btn, .video-nav-btn {
         width: 40px;
@@ -1041,6 +1095,16 @@ body {
 }
 
 /* Video Grid - 5 columns x 2 rows */
+.video-grid {
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    grid-template-rows: repeat(2, 1fr) !important;
+    gap: 1rem !important;
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 20px !important;
+}
 
 /* Ensure video items are visible */
 .video-item {
@@ -1098,24 +1162,4 @@ body {
         grid-template-columns: 1fr !important;
         grid-template-rows: repeat(10, 1fr) !important;
     }
-}
-
-/* ===== DEBUG STYLES FOR TROUBLESHOOTING ===== */
-.video-item {
-    border: 2px solid red !important;
-    min-height: 200px !important;
-}
-
-.video-thumbnail {
-    border: 2px solid blue !important;
-    background: yellow !important;
-}
-
-.video-thumbnail video {
-    border: 2px solid green !important;
-}
-
-.gallery-item {
-    border: 2px solid purple !important;
-    min-height: 200px !important;
 }
