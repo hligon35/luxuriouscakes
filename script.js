@@ -655,6 +655,11 @@ class Carousel {
         this.createIndicators();
         this.bindEvents();
         this.updateNavigation();
+        
+        // Force initial state - hide all items first
+        this.items.forEach(item => item.classList.add('hidden'));
+        
+        // Then show page 0
         this.showPage(0);
     }
     

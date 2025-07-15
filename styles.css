@@ -1077,3 +1077,13 @@ select:focus {
     outline: 2px solid var(--primary-color);
     outline-offset: 2px;
 }
+
+/* Carousel controlled visibility */
+.video-item.hidden {
+    display: none !important;
+}
+
+/* Initially show all items, carousel will control visibility */
+.video-item:not(.hidden) {
+    display: block;
+}
