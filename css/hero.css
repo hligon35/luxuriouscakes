@@ -37,8 +37,13 @@
     font-size: 5rem;
     font-weight: 700;
     margin-bottom: 1rem;
+    color: var(--white);
     text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7), 
                  0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.hero-title-primary {
+    color: var(--primary-color) !important;
 }
 
 .hero-subtitle {

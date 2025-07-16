@@ -811,6 +811,10 @@ class ReactGridCarousel {
         
         this.loadItems();
         this.createGrid();
+        
+        // Set correct itemsPerPage based on current screen size before creating indicators
+        this.handleResize();
+        
         this.createIndicators();
         this.bindEvents();
         this.bindResize();
@@ -928,12 +932,14 @@ class ReactGridCarousel {
         if (this.type === 'gallery') {
             const existingItems = this.grid.querySelectorAll('.gallery-item:not(.placeholder-item)');
             this.items = Array.from(existingItems);
+            console.log(`Gallery: Found ${existingItems.length} gallery items`);
             
             // Gallery items already have click handlers from the existing code
         } else {
             // For videos, also use existing HTML items
             const existingItems = this.grid.querySelectorAll('.video-item');
             this.items = Array.from(existingItems);
+            console.log(`Video: Found ${existingItems.length} video items`);
             
             // Add click events to existing video items using the existing openVideoModal function
             this.items.forEach((item, index) => {
@@ -1024,18 +1030,20 @@ class ReactGridCarousel {
     }
     
     handleResize() {
-        // Responsive grid adjustments
+        // Responsive grid adjustments to match CSS breakpoints
         const width = window.innerWidth;
         let newItemsPerPage;
         
-        if (width <= 375) {
-            newItemsPerPage = 1;
+        if (width <= 320) {
+            newItemsPerPage = 4; // 2x2 grid for very small screens
         } else if (width <= 480) {
-            newItemsPerPage = 1;
+            newItemsPerPage = 4; // 2x2 grid for mobile
         } else if (width <= 768) {
-            newItemsPerPage = 4; // 2x2 grid
+            newItemsPerPage = 4; // 2x2 grid for tablets
+        } else if (width <= 900) {
+            newItemsPerPage = 4; // 2x2 grid for medium tablets
         } else {
-            newItemsPerPage = 9; // 3x3 grid
+            newItemsPerPage = 9; // 3x3 grid for desktop
         }
         
         if (newItemsPerPage !== this.itemsPerPage) {
@@ -1053,23 +1061,26 @@ class ReactGridCarousel {
             return;
         }
         
-        console.log(`${this.type}: Showing page ${page} of ${this.totalPages}`);
+        console.log(`${this.type}: Showing page ${page} of ${this.totalPages}, itemsPerPage: ${this.itemsPerPage}`);
         
         this.isAnimating = true;
         this.currentPage = page;
         
         // Hide all items
-        this.items.forEach(item => {
+        this.items.forEach((item, index) => {
             item.classList.add('hidden');
+            console.log(`${this.type}: Hiding item ${index}`);
         });
         
         // Show items for current page
         const startIndex = page * this.itemsPerPage;
         const endIndex = Math.min(startIndex + this.itemsPerPage, this.items.length);
         
+        console.log(`${this.type}: Showing items ${startIndex} to ${endIndex - 1}`);
         for (let i = startIndex; i < endIndex; i++) {
             if (this.items[i]) {
                 this.items[i].classList.remove('hidden');
+                console.log(`${this.type}: Showing item ${i}`);
             }
         }
         
@@ -1104,14 +1115,22 @@ class ReactGridCarousel {
     }
     
     nextPage() {
+        console.log(`${this.type}: Next page requested. Current: ${this.currentPage}, Total: ${this.totalPages}`);
         if (this.currentPage < this.totalPages - 1 && !this.isAnimating) {
+            console.log(`${this.type}: Going to page ${this.currentPage + 1}`);
             this.showPage(this.currentPage + 1);
+        } else {
+            console.log(`${this.type}: Cannot go to next page - at end or animating`);
         }
     }
     
     previousPage() {
+        console.log(`${this.type}: Previous page requested. Current: ${this.currentPage}`);
         if (this.currentPage > 0 && !this.isAnimating) {
+            console.log(`${this.type}: Going to page ${this.currentPage - 1}`);
             this.showPage(this.currentPage - 1);
+        } else {
+            console.log(`${this.type}: Cannot go to previous page - at start or animating`);
         }
     }
     

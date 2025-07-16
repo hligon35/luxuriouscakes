@@ -53,12 +53,6 @@
         justify-self: center;
     }
     
-    /* Hide items beyond the 2x2 grid for medium tablets */
-    .gallery-item:nth-child(n+5),
-    .video-item:nth-child(n+5) {
-        display: none;
-    }
-    
     .gallery-item,
     .video-item {
         max-height: 220px;
@@ -151,12 +145,6 @@
         overflow: hidden;
         margin: 0 auto;
         justify-self: center;
-    }
-    
-    /* Hide items beyond the 2x2 grid */
-    .gallery-item:nth-child(n+5),
-    .video-item:nth-child(n+5) {
-        display: none;
     }
     
     /* Navigation button positioning */
@@ -342,12 +330,6 @@
         border-radius: 12px;
     }
     
-    /* Hide items beyond the 2x2 grid for mobile */
-    .gallery-item:nth-child(n+5),
-    .video-item:nth-child(n+5) {
-        display: none;
-    }
-    
     /* Overlay improvements for mobile */
     .gallery-overlay {
         padding: 15px;
@@ -435,12 +417,6 @@
         overflow: hidden;
         margin: 0 auto;
         justify-self: center;
-    }
-    
-    /* Hide items beyond the 2x2 grid for small mobile */
-    .gallery-item:nth-child(n+5),
-    .video-item:nth-child(n+5) {
-        display: none;
     }
     
     .gallery-item,
