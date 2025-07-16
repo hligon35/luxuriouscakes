@@ -6,12 +6,12 @@
 }
 
 :root {
-    --primary-color: #ffd700;    /* Gold */
-    --secondary-color: #000000;  /* Black */
-    --accent-color: #ff69b4;     /* Hot Pink */
-    --dark-color: #1a1a1a;       /* Deep Black */
-    --light-color: #fff0f5;      /* Light Pink */
-    --text-color: #2c2c2c;       /* Dark Gray */
+    --primary-color: #ffd700;
+    --secondary-color: #000000;
+    --accent-color: #ff69b4;
+    --dark-color: #1a1a1a;
+    --light-color: #fff0f5;
+    --text-color: #2c2c2c;
     --white: #ffffff;
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     --transition: all 0.3s ease;
@@ -28,6 +28,64 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+}
+
+/* Typography */
+.section-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3rem;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section-subtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--text-color);
+    margin-bottom: 3rem;
+    opacity: 0.8;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: var(--transition);
+    border: 2px solid transparent;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background: transparent;
+    color: var(--primary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255, 215, 0, 0.4);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--white);
+    border-color: var(--white);
+}
+
+.btn-secondary:hover {
+    background: var(--accent-color);
+    color: var(--secondary-color);
+    border-color: var(--accent-color);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255, 105, 180, 0.4);
 }
 
 /* Navigation */
@@ -158,46 +216,6 @@ body {
     flex-wrap: wrap;
 }
 
-.btn {
-    display: inline-block;
-    padding: 12px 30px;
-    text-decoration: none;
-    border-radius: 50px;
-    font-weight: 600;
-    transition: var(--transition);
-    border: 2px solid transparent;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-.btn-primary {
-    background: var(--primary-color);
-    color: var(--white);
-    border-color: var(--primary-color);
-}
-
-.btn-primary:hover {
-    background: transparent;
-    color: var(--primary-color);
-    border-color: var(--primary-color);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(255, 215, 0, 0.4);
-}
-
-.btn-secondary {
-    background: transparent;
-    color: var(--white);
-    border-color: var(--white);
-}
-
-.btn-secondary:hover {
-    background: var(--accent-color);
-    color: var(--secondary-color);
-    border-color: var(--accent-color);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(255, 105, 180, 0.4);
-}
-
 .scroll-indicator {
     position: absolute;
     bottom: 30px;
@@ -212,24 +230,6 @@ body {
     border-right: 2px solid var(--white);
     border-bottom: 2px solid var(--white);
     transform: rotate(45deg);
-}
-
-/* Section Titles */
-.section-title {
-    font-family: 'Dancing Script', cursive;
-    font-size: 3rem;
-    color: var(--primary-color);
-    text-align: center;
-    margin-bottom: 1rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.section-subtitle {
-    text-align: center;
-    font-size: 1.2rem;
-    color: var(--text-color);
-    margin-bottom: 3rem;
-    opacity: 0.8;
 }
 
 /* About Section */
@@ -268,6 +268,7 @@ body {
     margin-top: 0.5rem;
     background: linear-gradient(45deg, var(--primary-color), #ffed4e);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -293,45 +294,170 @@ body {
     transform: scale(1.05);
 }
 
-/* Gallery Section */
+/* Gallery and Video Sections */
 .gallery {
     padding: 100px 0;
     background: var(--white);
 }
 
-.gallery-container, .video-container {
+.videos {
+    padding: 100px 0;
+    background: var(--light-color);
+}
+
+.gallery-container {
     position: relative;
     max-width: 100%;
-    padding: 0 80px; /* Increased padding to center content between arrows */
+    padding: 0 80px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.gallery-wrapper, .video-wrapper {
+.gallery-wrapper {
     overflow: hidden;
     border-radius: 15px;
     width: 100%;
-    max-width: 1000px; /* Limit maximum width for better centering */
+    max-width: 1000px;
 }
 
-
-/* Gallery: 2 rows by 3 columns (6 items total) */
-
-/* Video: 2 rows by 5 columns (10 items total) */
-
-/* Override for desktop to maintain grid structure */
-@media (min-width: 769px) {
-    
+.video-container {
+    position: relative;
+    max-width: 100%;
+    padding: 0 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px !important;
 }
 
-/* Hide items that are not in current page */
-.gallery-item.hidden, .video-item.hidden {
+.video-wrapper {
+    overflow: hidden;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 1200px !important;
+}
+
+/* Essential Video Display Fix */
+.video-item {
+  z-index: 1;
+  height: auto !important;
+  min-height: 200px;
+}
+
+.video-wrapper {
+  overflow: visible;
+  padding-bottom: 20px;
+}
+
+/* Grid Layouts - CONSOLIDATED */
+.gallery-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    grid-template-rows: repeat(2, auto) !important;
+    gap: 1.5rem !important;
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 20px !important;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    grid-auto-flow: row;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Gallery and Video Items */
+.gallery-item, 
+.video-item {
+    background: var(--white) !important;
+    border-radius: 15px !important;
+    overflow: hidden !important;
+    box-shadow: var(--shadow) !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.gallery-item {
+    height: auto;
+    min-height: 200px;
+}
+
+.video-item {
+    background: var(--white);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: block;
+    visibility: visible;
+    opacity: 1;
+    height: 200px;
+    aspect-ratio: 16/9;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.gallery-item:hover, 
+.video-item:hover {
+    transform: translateY(-5px) scale(1.02);
+}
+
+.gallery-item.hidden, 
+.video-item.hidden {
     display: none;
 }
 
-/* Navigation Buttons - Positioned outside containers */
-.gallery-navigation, .video-navigation {
+/* Images and Videos */
+.gallery-item img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+    border-radius: 15px !important;
+}
+
+.video-item video {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+/* Hide video controls */
+.video-item video::-webkit-media-controls,
+.video-item video::-webkit-media-controls-enclosure {
+    display: none;
+}
+
+.video-item video::cue {
+    display: none;
+}
+
+/* Hide video section text overlays */
+#videos h3,
+#videos p {
+    display: block;
+}
+
+/* Navigation Buttons */
+.gallery-navigation, 
+.video-navigation {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -341,7 +467,8 @@ body {
     z-index: 10;
 }
 
-.gallery-nav-btn, .video-nav-btn {
+.gallery-nav-btn, 
+.video-nav-btn {
     position: absolute;
     top: 0;
     background: rgba(255, 215, 0, 0.95);
@@ -355,78 +482,39 @@ body {
     pointer-events: all;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
 }
 
-.gallery-nav-btn:hover, .video-nav-btn:hover {
+.gallery-nav-btn:hover, 
+.video-nav-btn:hover {
     background: var(--primary-color);
     transform: scale(1.1);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
-.gallery-nav-btn:active, .video-nav-btn:active {
+.gallery-nav-btn:active, 
+.video-nav-btn:active {
     transform: scale(0.95);
 }
 
-.gallery-nav-btn:disabled, .video-nav-btn:disabled {
+.gallery-nav-btn:disabled, 
+.video-nav-btn:disabled {
     cursor: not-allowed;
     opacity: 0.3 !important;
 }
 
 .prev-btn {
-    left: -80px; /* Position outside the increased padding */
+    left: -80px;
 }
 
 .next-btn {
-    right: -80px; /* Position outside the increased padding */
-}
-
-/* Fallback styles for navigation buttons */
-.gallery-container .gallery-nav-btn,
-.video-container .video-nav-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 15;
-}
-
-.gallery-container .prev-btn,
-.video-container .prev-btn {
-    left: -60px;
-}
-
-.gallery-container .next-btn,
-.video-container .next-btn {
-    right: -60px;
-}
-
-@media (max-width: 768px) {
-    .gallery-container .prev-btn,
-    .video-container .prev-btn {
-        left: -50px;
-    }
-    
-    .gallery-container .next-btn,
-    .video-container .next-btn {
-        right: -50px;
-    }
-}
-
-@media (max-width: 480px) {
-    .gallery-container .prev-btn,
-    .video-container .prev-btn {
-        left: -50px;
-    }
-    
-    .gallery-container .next-btn,
-    .video-container .next-btn {
-        right: -50px;
-    }
+    right: -80px;
 }
 
 /* Indicators */
-.gallery-indicators, .video-indicators {
+.gallery-indicators, 
+.video-indicators {
     display: flex;
     justify-content: center;
     margin-top: 2rem;
@@ -443,198 +531,12 @@ body {
 }
 
 .indicator.active {
-    background: var(--primary);
+    background: var(--primary-color);
     transform: scale(1.2);
 }
 
 .indicator:hover {
     background: rgba(255, 215, 0, 0.7);
-}
-
-/* Placeholder Items */
-.placeholder-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 300px;
-    border: 2px dashed rgba(255, 215, 0, 0.3);
-    border-radius: 15px;
-    background: linear-gradient(135deg, rgba(255, 215, 0, 0.05) 0%, rgba(255, 105, 180, 0.05) 100%);
-}
-
-.placeholder-content {
-    text-align: center;
-    color: var(--primary);
-    opacity: 0.7;
-}
-
-.placeholder-content i {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    display: block;
-}
-
-.placeholder-content p {
-    font-size: 0.9rem;
-    margin: 0;
-}
-
-/* Responsive Carousel */
-@media (max-width: 768px) {
-    .gallery-container, .video-container {
-        padding: 0 70px; /* Adjust padding for tablet */
-    }
-    
-    
-    
-    .prev-btn, .next-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
-    }
-    
-    .prev-btn {
-        left: -60px;
-    }
-    
-    .next-btn {
-        right: -60px;
-    }
-}
-
-/* Extra small screens */
-@media (max-width: 375px) {
-    .gallery-container, .video-container {
-        padding: 0 40px;
-    }
-    
-    
-    .gallery-nav-btn, .video-nav-btn {
-        width: 35px;
-        height: 35px;
-        font-size: 0.9rem;
-    }
-}
-
-/* Enhanced Gallery Item Hover */
-.gallery-item, .video-item {
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.gallery-item:hover, .video-item:hover {
-    transform: translateY(-5px) scale(1.02);
-}
-
-/* Video Section */
-.videos {
-    padding: 100px 0;
-    background: var(--light-color);
-}
-
-.video-item {
-    background: var(--white);
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-    cursor: pointer;
-    height: fit-content;
-    min-height: 250px;
-}
-
-.video-item:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-}
-
-.video-thumbnail {
-    position: relative;
-    overflow: hidden;
-    height: 150px;
-    background-color: #f0f0f0;
-}
-
-.video-thumbnail img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    transition: var(--transition);
-}
-
-.video-item:hover .video-thumbnail img {
-    transform: scale(1.1);
-}
-
-.video-thumbnail video {
-    width: 100%;
-    height: 150px !important;
-    object-fit: cover;
-    display: block;
-    background-color: #f0f0f0;
-    /* Add a visible border for debugging */
-    border: 2px solid #ffd700;
-}
-
-/* Fallback when video doesn't load */
-.video-thumbnail video:invalid,
-.video-thumbnail video:not([src]) {
-    background-image: linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
-                      linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), 
-                      linear-gradient(45deg, transparent 75%, #f0f0f0 75%), 
-                      linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
-    background-size: 20px 20px;
-    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-}
-
-/* Alternative: Add a loading text */
-.video-thumbnail::before {
-    content: "Loading video...";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #666;
-    font-size: 0.8rem;
-    z-index: 1;
-    pointer-events: none;
-}
-
-.video-thumbnail video[readyState="4"]::before {
-    display: none;
-}
-
-.play-button {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(212, 165, 116, 0.9);
-    color: var(--white);
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    transition: var(--transition);
-}
-
-.video-item:hover .play-button {
-    background: var(--primary-color);
-    transform: translate(-50%, -50%) scale(1.1);
-}
-
-.video-item h3 {
-    padding: 1rem;
-    color: var(--secondary-color);
-    margin-bottom: 0.5rem;
-}
-
-.video-item p {
-    padding: 0 1rem 1rem;
-    color: var(--text-color);
-    opacity: 0.8;
 }
 
 /* Contact Section */
@@ -673,6 +575,7 @@ body {
     justify-content: center;
     background: linear-gradient(45deg, var(--primary-color), #ffed4e);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -820,6 +723,30 @@ body {
 
 .video-modal-content {
     background: transparent;
+    max-width: 90%;
+    width: 80%;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.video-modal-content .video-container {
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.video-modal-content video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
 }
 
 .close {
@@ -848,7 +775,7 @@ body {
     position: relative;
     width: 100%;
     height: 0;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    padding-bottom: 56.25%;
 }
 
 .video-container iframe {
@@ -886,17 +813,6 @@ body {
     }
 }
 
-@keyframes slideIn {
-    from {
-        transform: translateX(-100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
 @keyframes scaleIn {
     from {
         opacity: 0;
@@ -917,15 +833,6 @@ body {
     }
     60% {
         transform: translateX(-50%) translateY(-5px);
-    }
-}
-
-@keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
     }
 }
 
@@ -966,7 +873,6 @@ body {
         gap: 2rem;
     }
     
-    
     .contact-content {
         grid-template-columns: 1fr;
         gap: 2rem;
@@ -980,6 +886,36 @@ body {
     .modal-content {
         width: 95%;
         margin: 10% auto;
+    }
+    
+    .gallery-container, 
+    .video-container {
+        padding: 0 70px;
+    }
+    
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        grid-template-rows: repeat(3, auto) !important;
+    }
+    
+    .video-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        grid-template-rows: repeat(5, auto) !important;
+    }
+    
+    .prev-btn {
+        left: -60px;
+    }
+    
+    .next-btn {
+        right: -60px;
+    }
+    
+    .gallery-nav-btn, 
+    .video-nav-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
     }
 }
 
@@ -997,20 +933,19 @@ body {
         max-width: 250px;
     }
     
-    .gallery-item {
-        margin-bottom: 1rem;
+    .gallery-container, 
+    .video-container {
+        padding: 0 60px;
     }
     
-    .gallery-container, .video-container {
-        padding: 0 60px; /* Adjust padding for mobile */
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        grid-template-rows: repeat(3, auto) !important;
     }
     
-    
-    
-    .gallery-nav-btn, .video-nav-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
+    .video-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        grid-template-rows: repeat(8, auto) !important;
     }
     
     .prev-btn {
@@ -1021,248 +956,15 @@ body {
         right: -50px;
     }
     
+    .gallery-nav-btn, 
+    .video-nav-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
     .indicator {
         width: 10px;
         height: 10px;
     }
-}
-
-/* ========== FINAL CLEAN GRID LAYOUT ========== */
-html body section#gallery .gallery-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    grid-template-rows: repeat(2, auto) !important;
-    gap: 1.5rem !important;
-    width: 100% !important;
-    max-width: 1200px !important;
-    margin: 0 auto !important;
-    padding: 20px !important;
-}
-
-html body section#videos {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    padding: 80px 0 !important;
-    background: var(--white) !important;
-}
-
-html body section#videos .video-grid {
-    display: grid !important;
-    grid-template-columns: repeat(5, 1fr) !important;
-    grid-template-rows: repeat(2, 1fr) !important;
-    gap: 1rem !important;
-    width: 100% !important;
-    max-width: 1200px !important;
-    margin: 0 auto !important;
-    padding: 20px !important;
-}
-
-html body section#videos .video-item {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    background: var(--white) !important;
-    border-radius: 15px !important;
-    overflow: hidden !important;
-    box-shadow: var(--shadow) !important;
-    transition: var(--transition) !important;
-}
-
-html body section#videos .video-thumbnail {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    width: 100% !important;
-    height: 150px !important;
-    background-color: #f0f0f0 !important;
-    position: relative !important;
-    overflow: hidden !important;
-}
-
-html body section#videos .video-thumbnail video {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-}
-
-/* Force all items visible - disable carousel hiding */
-html body .gallery-item.hidden,
-html body .video-item.hidden {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-}
-
-html body .gallery-grid .gallery-item,
-html body .video-grid .video-item {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-}
-
-html body .gallery-item {
-    background: var(--white) !important;
-    border-radius: 15px !important;
-    overflow: hidden !important;
-    box-shadow: var(--shadow) !important;
-    transition: var(--transition) !important;
-}
-
-/* Gallery item content fitting */
-html body .gallery-item img {
-    width: 100% !important;
-    height: auto !important;
-    object-fit: cover !important;
-    display: block !important;
-}
-
-html body .gallery-item .overlay {
-    position: absolute !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    background: linear-gradient(transparent, rgba(0,0,0,0.7)) !important;
-    color: white !important;
-    padding: 1rem !important;
-    transform: translateY(100%) !important;
-    transition: transform 0.3s ease !important;
-}
-
-html body .gallery-item:hover .overlay {
-    transform: translateY(0) !important;
-}
-
-/* Mobile responsive */
-@media (max-width: 768px) {
-    html body section#gallery .gallery-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        grid-template-rows: repeat(3, 1fr) !important;
-    }
-    
-    html body section#videos .video-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        grid-template-rows: repeat(5, 1fr) !important;
-    }
-}
-
-@media (max-width: 480px) {
-    html body section#gallery .gallery-grid {
-        grid-template-columns: 1fr !important;
-        grid-template-rows: repeat(6, 1fr) !important;
-    }
-    
-    html body section#videos .video-grid {
-        grid-template-columns: 1fr !important;
-        grid-template-rows: repeat(10, 1fr) !important;
-    }
-}
-
-/* ===== CRITICAL FIXES - FINAL OVERRIDES ===== */
-/* Gallery Grid - 3 columns x 2 rows */
-.gallery-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    grid-template-rows: repeat(2, 1fr) !important;
-    gap: 1.5rem !important;
-    width: 100% !important;
-    max-width: 1200px !important;
-    margin: 0 auto !important;
-    padding: 20px !important;
-}
-
-/* Video Grid - 5 columns x 2 rows */
-
-/* Ensure video items are visible */
-.video-item {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    background: white !important;
-    border-radius: 10px !important;
-    overflow: hidden !important;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
-}
-
-/* Video thumbnail container */
-.video-thumbnail {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    width: 100% !important;
-    height: 120px !important;
-    overflow: hidden !important;
-    background: #f0f0f0 !important;
-    position: relative !important;
-}
-
-/* Video element inside thumbnail */
-.video-thumbnail video {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-}
-
-/* Mobile responsive fixes */
-@media (max-width: 768px) {
-    .gallery-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        grid-template-rows: repeat(3, 1fr) !important;
-    }
-    
-    .video-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        grid-template-rows: repeat(5, 1fr) !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .gallery-grid {
-        grid-template-columns: 1fr !important;
-        grid-template-rows: repeat(6, 1fr) !important;
-    }
-    
-    .video-grid {
-        grid-template-columns: 1fr !important;
-        grid-template-rows: repeat(10, 1fr) !important;
-    }
-}
-
-
-
-
-
-/* ========== FORCE ALL ITEMS VISIBLE - DISABLE CAROUSEL HIDING ========== */
-html body .gallery-item.hidden,
-html body .video-item.hidden {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-}
-
-/* Disable carousel pagination - show all items at once */
-html body .gallery-grid .gallery-item,
-html body .video-grid .video-item {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-}
-
-/* Force grid layout even with carousel active */
-html body section#gallery .gallery-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    grid-template-rows: repeat(2, 1fr) !important;
-}
-
-html body section#videos .video-grid {
-    display: grid !important;
-    grid-template-columns: repeat(5, 1fr) !important;
-    grid-template-rows: repeat(2, 1fr) !important;
 }

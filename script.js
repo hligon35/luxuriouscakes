@@ -78,12 +78,23 @@ window.addEventListener('scroll', () => {
 galleryItems.forEach(item => {
     item.addEventListener('click', () => {
         const img = item.querySelector('img');
+        if (!img) return; // Skip if no image found
+        
+        // Set default values in case overlay is missing
+        let title = "Luxury Cake";
+        let description = "Handcrafted with premium ingredients";
+        
+        // Try to get overlay information if it exists
         const overlay = item.querySelector('.gallery-overlay');
-        const title = overlay.querySelector('h3').textContent;
-        const description = overlay.querySelector('p').textContent;
+        if (overlay) {
+            const titleEl = overlay.querySelector('h3');
+            const descEl = overlay.querySelector('p');
+            if (titleEl) title = titleEl.textContent;
+            if (descEl) description = descEl.textContent;
+        }
         
         modalImage.src = img.src;
-        modalImage.alt = img.alt;
+        modalImage.alt = img.alt || title;
         modalTitle.textContent = title;
         modalDescription.textContent = description;
         
@@ -198,20 +209,34 @@ const videoData = [
     }
 ];
 
-videoItems.forEach((item, index) => {
+videoItems.forEach((item) => {
     item.addEventListener('click', () => {
-        const video = videoData[index];
-        const title = item.querySelector('h3').textContent;
-        const description = item.querySelector('p').textContent;
+        // Get index from data-attribute or default to 0
+        const index = parseInt(item.getAttribute('data-index') || '0');
+        
+        // If index is out of bounds, use a default value
+        const video = index < videoData.length ? videoData[index] : videoData[0];
+        
+        // Set default values
+        let title = video ? video.title : "Cake Making Video";
+        let description = video ? video.description : "Professional baking techniques";
+        
+        // Try to get text content if elements exist
+        const titleEl = item.querySelector('h3');
+        const descEl = item.querySelector('p');
+        if (titleEl) title = titleEl.textContent;
+        if (descEl) description = descEl.textContent;
         
         videoModalTitle.textContent = title;
         videoModalDescription.textContent = description;
         
         // For local videos, replace the iframe with a video element
         const videoContainer = modalVideo.parentElement;
+        const videoSrc = video ? video.videoSrc : "vids/optimized/vid1.mp4";
+        
         videoContainer.innerHTML = `
             <video controls autoplay style="width: 100%; height: 100%; max-width: 800px;">
-                <source src="${video.videoSrc}" type="video/mp4">
+                <source src="${videoSrc}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         `;
@@ -220,6 +245,75 @@ videoItems.forEach((item, index) => {
         document.body.style.overflow = 'hidden';
     });
 });
+
+// Video modal function
+function openVideoModal(index) {
+    console.log(`Opening video modal for index ${index}`);
+    
+    if (!videoModal) {
+        console.error('Video modal element not found');
+        return;
+    }
+    
+    try {
+        // Find the video by index
+        const videoItem = document.querySelector(`.video-item[data-index="${index}"]`);
+        if (!videoItem) {
+            console.error(`Video item with index ${index} not found`);
+            return;
+        }
+        
+        const video = videoItem.querySelector('video');
+        if (!video) {
+            console.error(`Video element not found in item with index ${index}`);
+            return;
+        }
+        
+        const source = video.querySelector('source');
+        if (!source || !source.src) {
+            console.error(`Source not found for video with index ${index}`);
+            return;
+        }
+        
+        // Get the video source
+        const videoSrc = source.src;
+        console.log(`Video source: ${videoSrc}`);
+        
+        // Set the modal video source - using direct video element
+        if (modalVideo) {
+            modalVideo.src = videoSrc;
+            // Also set poster in case video doesn't load immediately
+            modalVideo.poster = video.poster;
+        }
+        
+        // Set modal title and description
+        if (videoModalTitle) {
+            videoModalTitle.textContent = `Cake Creation Video ${parseInt(index) + 1}`;
+        }
+        
+        if (videoModalDescription) {
+            videoModalDescription.textContent = 'Enjoy this beautiful cake creation video!';
+        }
+        
+        // Show the modal
+        videoModal.style.display = 'flex';
+        
+        // Play the video
+        if (modalVideo) {
+            modalVideo.load(); // Make sure video is loaded
+            // Use a slight delay to ensure the modal is fully visible before playing
+            setTimeout(() => {
+                try {
+                    modalVideo.play();
+                } catch(e) {
+                    console.log('Could not autoplay video:', e);
+                }
+            }, 300);
+        }
+    } catch (error) {
+        console.error('Error opening video modal:', error);
+    }
+}
 
 // Close modals
 closeBtns.forEach(btn => {
@@ -460,6 +554,53 @@ document.addEventListener('DOMContentLoaded', () => {
     // Remove loading class when everything is ready
     window.addEventListener('load', () => {
         document.body.classList.remove('loading');
+    });
+    
+    // Log video items for debugging
+    const videoItems = document.querySelectorAll('.video-item');
+    console.log('Found video items:', videoItems.length);
+    
+    // Make sure videos are loaded
+    videoItems.forEach((item, index) => {
+        const video = item.querySelector('video');
+        if (video) {
+            // Set poster for better visibility before video loads
+            const posterIndex = (index % 5) + 1;
+            video.poster = `pics/optimized/pic${posterIndex}.webp`;
+            console.log(`Video ${index} source: ${video.querySelector('source')?.src || 'No source'}`);
+            
+            // Make sure video is visible
+            item.style.display = 'block';
+            item.style.visibility = 'visible';
+            item.style.opacity = '1';
+            item.style.zIndex = '1';
+            
+            video.style.display = 'block';
+            video.style.visibility = 'visible';
+            video.style.opacity = '1';
+            video.style.width = '100%';
+            video.style.height = '100%';
+            video.style.objectFit = 'cover';
+            
+            // Add click event listener for better interaction
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const videoSrc = video.querySelector('source')?.src;
+                if (videoSrc) {
+                    openVideoModal(item.dataset.index);
+                }
+            });
+            
+            // Force load the video
+            video.load();
+            
+            // Show poster immediately
+            video.addEventListener('loadedmetadata', () => {
+                console.log(`Video ${index} metadata loaded`);
+            });
+        } else {
+            console.log(`No video element found for item ${index}`);
+        }
     });
     
     // Initialize scroll animations
