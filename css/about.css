@@ -2,6 +2,8 @@
 .about {
     padding: 100px 0;
     background: var(--light-color);
+    position: relative;
+    z-index: 1;
 }
 
 .about-content {
@@ -9,16 +11,38 @@
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
     align-items: center;
+    position: relative;
+    z-index: 2;
 }
 
 .about-text {
     max-width: 600px;
+    text-align: left;
+    position: relative;
+    z-index: 3;
+}
+
+.about-text .section-title {
+    text-align: center;
+}
+
+/* Prevent scroll interference */
+.about-text,
+.about-description,
+.about-text * {
+    scroll-behavior: auto !important;
+    scroll-margin: 0 !important;
+    scroll-padding: 0 !important;
 }
 
 .about-description {
     font-size: 1.1rem;
     line-height: 1.8;
     margin-bottom: 2rem;
+    text-align: left;
+    position: static;
+    transform: none;
+    will-change: auto;
 }
 
 .skills {
