@@ -43,6 +43,7 @@
     position: static;
     transform: none;
     will-change: auto;
+    text-align: center;
 }
 
 .skills {
