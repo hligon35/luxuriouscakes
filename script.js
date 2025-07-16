@@ -548,6 +548,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize lazy loading
     lazyLoadImages();
     
+    // Set up video grid with exactly 9 videos
+    setupVideoGrid();
+    
     // Add loading class to body initially
     document.body.classList.add('loading');
     
@@ -558,6 +561,18 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Log video items for debugging
     const videoItems = document.querySelectorAll('.video-item');
+    
+    // Additional check for video section visibility
+    window.addEventListener('scroll', () => {
+        const videosSection = document.getElementById('videos');
+        if (videosSection) {
+            const rect = videosSection.getBoundingClientRect();
+            const isVisible = (rect.top <= window.innerHeight && rect.bottom >= 0);
+            if (isVisible) {
+                setupVideoGrid();
+            }
+        }
+    });
     console.log('Found video items:', videoItems.length);
     
     // Make sure videos are loaded and displayed in a 3x4 grid
@@ -619,11 +634,17 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
     
-    // DISABLED CAROUSEL - Show all items in grid instead
-    // const galleryCarousel = new Carousel('.gallery-container', 6);
-    // const videoCarousel = new Carousel('.video-container', 10);
-    // window.galleryCarousel = galleryCarousel;
-    // window.videoCarousel = videoCarousel;
+    // Set up gallery with all items visible in a grid
+    const galleryItems = document.querySelectorAll('.gallery-item:not(.placeholder-item)');
+    console.log(`Found ${galleryItems.length} gallery items`);
+    
+    // Make all gallery items visible
+    galleryItems.forEach(item => {
+        item.classList.remove('hidden');
+        item.style.display = 'block';
+        item.style.visibility = 'visible';
+        item.style.opacity = '1';
+    });
     
     // Force all items to be visible
     document.querySelectorAll('.gallery-item, .video-item').forEach(item => {
@@ -639,7 +660,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupVideoGrid();
 });
 
-// Function to initialize video grid with exactly 12 items
+// Function to initialize video grid with exactly 9 items (3x3)
 function setupVideoGrid() {
     const videoGrid = document.getElementById('videoGrid');
     if (!videoGrid) return;
@@ -647,19 +668,35 @@ function setupVideoGrid() {
     const videoItems = videoGrid.querySelectorAll('.video-item');
     console.log(`Found ${videoItems.length} video items in grid`);
     
-    // Hide items beyond 12
+    // Count visible items
+    let visibleCount = 0;
+    
+    // Hide items beyond 9
     videoItems.forEach((item, index) => {
-        if (index >= 12) {
+        if (index >= 9) {
             item.style.display = 'none';
         } else {
             item.style.display = 'block';
+            visibleCount++;
+            
+            // Ensure each visible item is properly styled
+            item.style.visibility = 'visible';
+            item.style.opacity = '1';
+            
+            // Position in a 3x3 grid
+            const row = Math.floor(index / 3) + 1;
+            const col = (index % 3) + 1;
+            item.style.gridRow = row.toString();
+            item.style.gridColumn = col.toString();
         }
     });
+    
+    console.log(`Video grid setup complete. ${visibleCount} items visible in 3x3 grid.`);
     
     // Force grid layout refresh
     videoGrid.style.display = 'grid';
     videoGrid.style.gridTemplateColumns = 'repeat(3, 1fr)';
-    videoGrid.style.gridTemplateRows = 'repeat(4, auto)';
+    videoGrid.style.gridTemplateRows = 'repeat(3, 1fr)';
     videoGrid.style.gap = '25px';
 }
 
