@@ -548,15 +548,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize lazy loading
     lazyLoadImages();
     
-    // Add loading class to body initially
-    document.body.classList.add('loading');
-    
-    // Hide gallery and video grids initially to prevent flash
-    const galleryGrid = document.querySelector('.gallery-grid-3x3');
-    const videoGrid = document.querySelector('.video-grid-3x3');
-    if (galleryGrid) galleryGrid.style.opacity = '0';
-    if (videoGrid) videoGrid.style.opacity = '0';
-    
     // Remove loading class when everything is ready
     window.addEventListener('load', () => {
         document.body.classList.remove('loading');
@@ -564,7 +555,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Initialize carousels after page is fully loaded
         setTimeout(() => {
             initializeCarousels();
-        }, 100); // Small delay to ensure DOM is stable
+        }, 200);
     });
     
     // Initialize scroll animations
@@ -588,18 +579,6 @@ function initializeCarousels() {
         
         // Initialize video carousel  
         const videoCarousel = new ReactGridCarousel('.video-container', 'video');
-        
-        // Show grids after initialization
-        const galleryGrid = document.querySelector('.gallery-grid-3x3');
-        const videoGrid = document.querySelector('.video-grid-3x3');
-        if (galleryGrid) {
-            galleryGrid.style.opacity = '1';
-            galleryGrid.style.transition = 'opacity 0.5s ease';
-        }
-        if (videoGrid) {
-            videoGrid.style.opacity = '1';
-            videoGrid.style.transition = 'opacity 0.5s ease';
-        }
         
         console.log('3x3 Grid carousels initialized successfully!');
     } catch (error) {
@@ -721,19 +700,10 @@ class ReactGridCarousel {
         this.createGrid();
         this.createIndicators();
         this.bindEvents();
-        
-        // Ensure all items start hidden
-        this.items.forEach(item => {
-            item.classList.add('hidden');
-            item.style.opacity = '0';
-        });
-        
-        // Show first page after a brief delay
-        setTimeout(() => {
-            this.showPage(0);
-        }, 50);
-        
         this.bindResize();
+        
+        // Show first page immediately
+        this.showPage(0);
         
         console.log(`${this.type} carousel initialized with ${this.items.length} items, ${this.totalPages} pages`);
     }
@@ -741,12 +711,15 @@ class ReactGridCarousel {
     loadItems() {
         // Load items based on type
         if (this.type === 'gallery') {
-            this.items = this.createGalleryItems();
+            // For gallery, we'll use existing HTML items in createGrid()
+            // Just set a placeholder here
+            this.items = [];
         } else {
             this.items = this.createVideoItems();
         }
         
-        this.totalPages = Math.ceil(this.items.length / this.itemsPerPage);
+        // Total pages will be calculated in createGrid() after we have actual items
+        this.totalPages = 0;
     }
     
     createGalleryItems() {
@@ -838,13 +811,28 @@ class ReactGridCarousel {
     }
     
     createGrid() {
-        // Clear existing content
-        this.grid.innerHTML = '';
+        // Work with existing HTML items instead of creating new ones
+        if (this.type === 'gallery') {
+            const existingItems = this.grid.querySelectorAll('.gallery-item:not(.placeholder-item)');
+            this.items = Array.from(existingItems);
+            
+            // Gallery items already have click handlers from the existing code
+        } else {
+            // For videos, also use existing HTML items
+            const existingItems = this.grid.querySelectorAll('.video-item');
+            this.items = Array.from(existingItems);
+            
+            // Add click events to existing video items using the existing openVideoModal function
+            this.items.forEach((item, index) => {
+                item.addEventListener('click', () => {
+                    openVideoModal(index); // Use the existing global function
+                });
+            });
+        }
         
-        // Add all items to the grid
-        this.items.forEach(item => {
-            this.grid.appendChild(item);
-        });
+        // Update total pages based on actual items
+        this.totalPages = Math.ceil(this.items.length / this.itemsPerPage);
+        console.log(`${this.type}: Found ${this.items.length} items, ${this.totalPages} pages`);
     }
     
     createIndicators() {
@@ -947,43 +935,38 @@ class ReactGridCarousel {
     }
     
     showPage(page) {
-        if (page < 0 || page >= this.totalPages || this.isAnimating) return;
+        if (page < 0 || page >= this.totalPages || this.isAnimating) {
+            console.log(`${this.type}: Cannot show page ${page} (total: ${this.totalPages})`);
+            return;
+        }
         
-        console.log(`${this.type} carousel: showing page ${page}`);
+        console.log(`${this.type}: Showing page ${page} of ${this.totalPages}`);
         
         this.isAnimating = true;
         this.currentPage = page;
         
-        // Hide all items immediately
-        this.items.forEach((item, index) => {
+        // Hide all items
+        this.items.forEach(item => {
             item.classList.add('hidden');
-            item.style.opacity = '0';
-            item.style.transform = 'scale(0.8)';
-            item.style.animation = 'none';
         });
         
-        // Show items for current page with staggered animation
+        // Show items for current page
         const startIndex = page * this.itemsPerPage;
         const endIndex = Math.min(startIndex + this.itemsPerPage, this.items.length);
         
-        setTimeout(() => {
-            for (let i = startIndex; i < endIndex; i++) {
-                if (this.items[i]) {
-                    this.items[i].classList.remove('hidden');
-                    this.items[i].style.opacity = '1';
-                    this.items[i].style.transform = 'scale(1)';
-                    this.items[i].style.animation = `fadeInUp 0.6s ease ${(i - startIndex) * 0.1}s forwards`;
-                }
+        for (let i = startIndex; i < endIndex; i++) {
+            if (this.items[i]) {
+                this.items[i].classList.remove('hidden');
             }
-            
-            this.updateIndicators();
-            this.updateNavigation();
-            
-            // Reset animation state
-            setTimeout(() => {
-                this.isAnimating = false;
-            }, 800);
-        }, 100);
+        }
+        
+        this.updateIndicators();
+        this.updateNavigation();
+        
+        // Reset animation state
+        setTimeout(() => {
+            this.isAnimating = false;
+        }, 300);
     }
     
     updateIndicators() {
