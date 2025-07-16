@@ -328,14 +328,15 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 50px !important;
+    margin-bottom: 50px;
 }
 
 .video-wrapper {
-    overflow: hidden;
+    overflow: visible;
     border-radius: 15px;
     width: 100%;
-    max-width: 1200px !important;
+    max-width: 900px;
+    padding-bottom: 20px;
 }
 
 /* Essential Video Display Fix */
@@ -343,11 +344,18 @@ body {
   z-index: 1;
   height: auto !important;
   min-height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform-origin: center;
 }
 
-.video-wrapper {
-  overflow: visible;
-  padding-bottom: 20px;
+.video-item video {
+  transition: transform 0.3s ease;
+}
+
+.video-item:hover video {
+  transform: scale(1.05);
 }
 
 /* Grid Layouts - CONSOLIDATED */
@@ -363,17 +371,14 @@ body {
 }
 
 .video-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(2, auto);
-    gap: 1.5rem;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    grid-auto-flow: row;
-    justify-content: center;
-    align-items: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, auto);
+  gap: 25px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 /* Gallery and Video Items */
@@ -395,23 +400,36 @@ body {
 }
 
 .video-item {
-    background: var(--white);
+    height: 180px;
+    width: 100%;
+    position: relative;
+    margin: 0;
+    background-color: var(--white);
     border-radius: 15px;
     overflow: hidden;
     box-shadow: var(--shadow);
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    display: block;
-    visibility: visible;
-    opacity: 1;
-    height: 200px;
-    aspect-ratio: 16/9;
-    margin-bottom: 10px;
-    position: relative;
+}
+
+.video-item video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Fix for video display issues */
+.video-wrapper {
+  overflow: visible;
+  display: block;
 }
 
 .gallery-item:hover, 
 .video-item:hover {
     transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    z-index: 2;
 }
 
 .gallery-item.hidden, 
@@ -437,6 +455,7 @@ body {
     object-fit: cover;
     border-radius: 15px;
     cursor: pointer;
+    object-position: center;
 }
 
 /* Hide video controls */
@@ -899,8 +918,9 @@ body {
     }
     
     .video-grid {
-        grid-template-columns: repeat(3, 1fr) !important;
-        grid-template-rows: repeat(5, auto) !important;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(4, auto);
+        gap: 20px;
     }
     
     .prev-btn {
@@ -944,8 +964,9 @@ body {
     }
     
     .video-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        grid-template-rows: repeat(8, auto) !important;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(6, auto);
+        gap: 15px;
     }
     
     .prev-btn {

@@ -560,7 +560,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const videoItems = document.querySelectorAll('.video-item');
     console.log('Found video items:', videoItems.length);
     
-    // Make sure videos are loaded
+    // Make sure videos are loaded and displayed in a 3x4 grid
     videoItems.forEach((item, index) => {
         const video = item.querySelector('video');
         if (video) {
@@ -569,11 +569,19 @@ document.addEventListener('DOMContentLoaded', () => {
             video.poster = `pics/optimized/pic${posterIndex}.webp`;
             console.log(`Video ${index} source: ${video.querySelector('source')?.src || 'No source'}`);
             
+            // Limit to only 12 videos for a 3x4 grid (0-11 indexes)
+            if (index > 11) {
+                item.style.display = 'none';
+                return;
+            }
+            
             // Make sure video is visible
             item.style.display = 'block';
             item.style.visibility = 'visible';
             item.style.opacity = '1';
             item.style.zIndex = '1';
+            item.style.margin = '0';
+            item.style.width = '100%';
             
             video.style.display = 'block';
             video.style.visibility = 'visible';
@@ -626,7 +634,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     console.log('Luxurious Cakes website loaded successfully!');
+    
+    // Call our video grid setup function
+    setupVideoGrid();
 });
+
+// Function to initialize video grid with exactly 12 items
+function setupVideoGrid() {
+    const videoGrid = document.getElementById('videoGrid');
+    if (!videoGrid) return;
+    
+    const videoItems = videoGrid.querySelectorAll('.video-item');
+    console.log(`Found ${videoItems.length} video items in grid`);
+    
+    // Hide items beyond 12
+    videoItems.forEach((item, index) => {
+        if (index >= 12) {
+            item.style.display = 'none';
+        } else {
+            item.style.display = 'block';
+        }
+    });
+    
+    // Force grid layout refresh
+    videoGrid.style.display = 'grid';
+    videoGrid.style.gridTemplateColumns = 'repeat(3, 1fr)';
+    videoGrid.style.gridTemplateRows = 'repeat(4, auto)';
+    videoGrid.style.gap = '25px';
+}
 
 // Performance optimization: Debounce scroll events
 function debounce(func, wait) {
