@@ -1,3 +1,24 @@
+/*
+EMAIL SETUP INSTRUCTIONS:
+To enable direct email sending without user's email client:
+
+Option 1 - Formspree (Easiest, Free tier available):
+1. Go to https://formspree.io
+2. Sign up for a free account
+3. Create a new form
+4. Replace 'YOUR_FORM_ID' in the sendEmail function with your actual form ID
+5. The form will send emails directly to alondra.strada1981@gmail.com
+
+Option 2 - EmailJS (More customizable):
+1. Go to https://www.emailjs.com
+2. Sign up and create a service
+3. Create an email template
+4. Replace the EmailJS configuration values in the sendEmail function
+5. Uncomment the EmailJS code and comment out the Formspree code
+
+Current fallback: If services fail, it opens the user's email client with a pre-filled email.
+*/
+
 // DOM Elements
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
@@ -371,21 +392,113 @@ contactForm.addEventListener('submit', (e) => {
         return;
     }
     
-    // Simulate form submission
+    // Prepare form submission
     const submitBtn = contactForm.querySelector('button[type="submit"]');
     const originalText = submitBtn.textContent;
     
     submitBtn.textContent = 'Sending...';
     submitBtn.disabled = true;
     
-    // Simulate API call
-    setTimeout(() => {
-        showNotification('Thank you for your message! We\'ll get back to you soon.', 'success');
-        contactForm.reset();
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-    }, 2000);
+    // Send email using EmailJS
+    sendEmail(data)
+        .then(() => {
+            showNotification('Thank you for your message! Your order inquiry has been sent successfully.', 'success');
+            contactForm.reset();
+        })
+        .catch((error) => {
+            console.error('Error sending email:', error);
+            showNotification('Sorry, there was an error sending your message. Please try again.', 'error');
+        })
+        .finally(() => {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        });
 });
+
+// Email sending function using EmailJS
+async function sendEmail(data) {
+    // EmailJS configuration
+    const serviceID = 'service_luxcakes'; // You'll need to set this up
+    const templateID = 'template_luxcakes'; // You'll need to set this up
+    const publicKey = 'YOUR_EMAILJS_PUBLIC_KEY'; // You'll need to get this from EmailJS
+    
+    const serviceType = data.service.charAt(0).toUpperCase() + data.service.slice(1);
+    
+    const templateParams = {
+        to_email: 'alondra.strada1981@gmail.com',
+        subject: 'Luxurious Cakes Order!!!',
+        customer_name: data.name,
+        customer_email: data.email,
+        customer_phone: data.phone || 'Not provided',
+        service_type: serviceType,
+        message: data.message,
+        formatted_message: `
+New Order Inquiry:
+
+Name: ${data.name}
+Email: ${data.email}
+Phone: ${data.phone || 'Not provided'}
+Service Type: ${serviceType}
+
+Message:
+${data.message}
+
+---
+This inquiry was sent from the Luxurious Cakes website contact form.
+        `.trim()
+    };
+    
+    // For now, we'll use a simple fetch to a form submission service
+    // You can replace this with EmailJS when configured
+    try {
+        // Using Formspree as an alternative (free tier available)
+        const response = await fetch('https://formspree.io/f/xnqedpod', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: 'alondra.strada1981@gmail.com',
+                subject: 'Luxurious Cakes Order!!!',
+                name: data.name,
+                customer_email: data.email,
+                phone: data.phone || 'Not provided',
+                service: serviceType,
+                message: data.message,
+                _subject: 'Luxurious Cakes Order!!!',
+                _replyto: data.email
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        
+        return response.json();
+    } catch (error) {
+        // Fallback to mailto if service fails
+        const emailSubject = 'Luxurious Cakes Order!!!';
+        const emailBody = `
+New Order Inquiry:
+
+Name: ${data.name}
+Email: ${data.email}
+Phone: ${data.phone || 'Not provided'}
+Service Type: ${serviceType}
+
+Message:
+${data.message}
+
+---
+This inquiry was sent from the Luxurious Cakes website contact form.
+        `.trim();
+        
+        const mailto = `mailto:alondra.strada1981@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+        window.open(mailto);
+        
+        throw new Error('Using fallback mailto method');
+    }
+}
 
 // Email validation
 function isValidEmail(email) {

@@ -256,15 +256,15 @@
     
     .gallery-item:hover,
     .video-item:hover {
-        transform: none;
+        transform: scale(1.05);
     }
     
     .contact-item:hover {
-        transform: none;
+        transform: scale(1.05);
     }
     
     .social-link:hover {
-        transform: none;
+        transform: scale(1.05);
     }
 }
 

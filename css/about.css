@@ -28,7 +28,7 @@
 
 .skill-item {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 1rem;
     padding: 1rem;
     background: var(--white);
@@ -38,18 +38,18 @@
 }
 
 .skill-item:hover {
-    transform: translateY(-5px);
+    transform: scale(1.1);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .skill-item i {
     font-size: 2rem;
     color: var(--primary-color);
-    margin-top: 0.5rem;
-    background: linear-gradient(45deg, var(--primary-color), #ffed4e);
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    flex-shrink: 0;
 }
 
 .skill-item h3 {
