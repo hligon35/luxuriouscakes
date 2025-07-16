@@ -28,5 +28,8 @@
     "type": "git",
     "url": "git+https://github.com/hligon35/luxuriouscakes.git"
   },
-  "homepage": "https://hligon35.github.io/luxuriouscakes/"
+  "homepage": "https://hligon35.github.io/luxuriouscakes/",
+  "dependencies": {
+    "react-grid-carousel": "^1.0.1"
+  }
 }

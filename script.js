@@ -548,119 +548,66 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize lazy loading
     lazyLoadImages();
     
-    // Set up video grid with exactly 9 videos
-    setupVideoGrid();
-    
     // Add loading class to body initially
     document.body.classList.add('loading');
+    
+    // Hide gallery and video grids initially to prevent flash
+    const galleryGrid = document.querySelector('.gallery-grid-3x3');
+    const videoGrid = document.querySelector('.video-grid-3x3');
+    if (galleryGrid) galleryGrid.style.opacity = '0';
+    if (videoGrid) videoGrid.style.opacity = '0';
     
     // Remove loading class when everything is ready
     window.addEventListener('load', () => {
         document.body.classList.remove('loading');
-    });
-    
-    // Log video items for debugging
-    const videoItems = document.querySelectorAll('.video-item');
-    
-    // Additional check for video section visibility
-    window.addEventListener('scroll', () => {
-        const videosSection = document.getElementById('videos');
-        if (videosSection) {
-            const rect = videosSection.getBoundingClientRect();
-            const isVisible = (rect.top <= window.innerHeight && rect.bottom >= 0);
-            if (isVisible) {
-                setupVideoGrid();
-            }
-        }
-    });
-    console.log('Found video items:', videoItems.length);
-    
-    // Make sure videos are loaded and displayed in a 3x4 grid
-    videoItems.forEach((item, index) => {
-        const video = item.querySelector('video');
-        if (video) {
-            // Set poster for better visibility before video loads
-            const posterIndex = (index % 5) + 1;
-            video.poster = `pics/optimized/pic${posterIndex}.webp`;
-            console.log(`Video ${index} source: ${video.querySelector('source')?.src || 'No source'}`);
-            
-            // Limit to only 12 videos for a 3x4 grid (0-11 indexes)
-            if (index > 11) {
-                item.style.display = 'none';
-                return;
-            }
-            
-            // Make sure video is visible
-            item.style.display = 'block';
-            item.style.visibility = 'visible';
-            item.style.opacity = '1';
-            item.style.zIndex = '1';
-            item.style.margin = '0';
-            item.style.width = '100%';
-            
-            video.style.display = 'block';
-            video.style.visibility = 'visible';
-            video.style.opacity = '1';
-            video.style.width = '100%';
-            video.style.height = '100%';
-            video.style.objectFit = 'cover';
-            
-            // Add click event listener for better interaction
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                const videoSrc = video.querySelector('source')?.src;
-                if (videoSrc) {
-                    openVideoModal(item.dataset.index);
-                }
-            });
-            
-            // Force load the video
-            video.load();
-            
-            // Show poster immediately
-            video.addEventListener('loadedmetadata', () => {
-                console.log(`Video ${index} metadata loaded`);
-            });
-        } else {
-            console.log(`No video element found for item ${index}`);
-        }
+        
+        // Initialize carousels after page is fully loaded
+        setTimeout(() => {
+            initializeCarousels();
+        }, 100); // Small delay to ensure DOM is stable
     });
     
     // Initialize scroll animations
-    const animateElements = document.querySelectorAll('.about-content, .skill-item, .gallery-item, .video-item, .contact-content');
+    const animateElements = document.querySelectorAll('.about-content, .skill-item, .contact-content');
     animateElements.forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
         observer.observe(el);
     });
     
-    // Set up gallery with all items visible in a grid
-    const galleryItems = document.querySelectorAll('.gallery-item:not(.placeholder-item)');
-    console.log(`Found ${galleryItems.length} gallery items`);
-    
-    // Make all gallery items visible
-    galleryItems.forEach(item => {
-        item.classList.remove('hidden');
-        item.style.display = 'block';
-        item.style.visibility = 'visible';
-        item.style.opacity = '1';
-    });
-    
-    // Force all items to be visible
-    document.querySelectorAll('.gallery-item, .video-item').forEach(item => {
-        item.classList.remove('hidden');
-        item.style.display = 'block';
-        item.style.visibility = 'visible';
-        item.style.opacity = '1';
-    });
-    
-    console.log('Luxurious Cakes website loaded successfully!');
-    
-    // Call our video grid setup function
-    setupVideoGrid();
+    console.log('Luxurious Cakes website loading...');
 });
 
-// Function to initialize video grid with exactly 9 items (3x3)
+// Initialize React-style Grid Carousels
+function initializeCarousels() {
+    try {
+        console.log('Initializing carousels...');
+        
+        // Initialize gallery carousel
+        const galleryCarousel = new ReactGridCarousel('.gallery-container', 'gallery');
+        
+        // Initialize video carousel  
+        const videoCarousel = new ReactGridCarousel('.video-container', 'video');
+        
+        // Show grids after initialization
+        const galleryGrid = document.querySelector('.gallery-grid-3x3');
+        const videoGrid = document.querySelector('.video-grid-3x3');
+        if (galleryGrid) {
+            galleryGrid.style.opacity = '1';
+            galleryGrid.style.transition = 'opacity 0.5s ease';
+        }
+        if (videoGrid) {
+            videoGrid.style.opacity = '1';
+            videoGrid.style.transition = 'opacity 0.5s ease';
+        }
+        
+        console.log('3x3 Grid carousels initialized successfully!');
+    } catch (error) {
+        console.error('Error initializing carousels:', error);
+    }
+}
+
+// Function to initialize video grid (legacy support)
 function setupVideoGrid() {
     const videoGrid = document.getElementById('videoGrid');
     if (!videoGrid) return;
@@ -668,36 +615,13 @@ function setupVideoGrid() {
     const videoItems = videoGrid.querySelectorAll('.video-item');
     console.log(`Found ${videoItems.length} video items in grid`);
     
-    // Count visible items
-    let visibleCount = 0;
-    
-    // Hide items beyond 9
-    videoItems.forEach((item, index) => {
-        if (index >= 9) {
-            item.style.display = 'none';
-        } else {
-            item.style.display = 'block';
-            visibleCount++;
-            
-            // Ensure each visible item is properly styled
-            item.style.visibility = 'visible';
-            item.style.opacity = '1';
-            
-            // Position in a 3x3 grid
-            const row = Math.floor(index / 3) + 1;
-            const col = (index % 3) + 1;
-            item.style.gridRow = row.toString();
-            item.style.gridColumn = col.toString();
-        }
+    // Ensure all items are properly styled
+    videoItems.forEach((item) => {
+        item.style.visibility = 'visible';
+        item.style.opacity = '1';
     });
     
-    console.log(`Video grid setup complete. ${visibleCount} items visible in 3x3 grid.`);
-    
-    // Force grid layout refresh
-    videoGrid.style.display = 'grid';
-    videoGrid.style.gridTemplateColumns = 'repeat(3, 1fr)';
-    videoGrid.style.gridTemplateRows = 'repeat(3, 1fr)';
-    videoGrid.style.gap = '25px';
+    console.log(`Video grid setup complete.`);
 }
 
 // Performance optimization: Debounce scroll events
@@ -763,68 +687,164 @@ focusStyles.textContent = `
 document.head.appendChild(focusStyles);
 
 // Gallery and Video Carousel Functionality
-class Carousel {
-    constructor(containerSelector, itemsPerPage = 6) {
+class ReactGridCarousel {
+    constructor(containerSelector, type = 'gallery') {
         this.container = document.querySelector(containerSelector);
+        this.type = type;
         
         if (!this.container) {
             console.error('Container not found for:', containerSelector);
             return;
         }
         
-        this.grid = this.container.querySelector('.gallery-grid, .video-grid');
-        this.items = this.grid.querySelectorAll('.gallery-item, .video-item:not(.placeholder-item)');
+        this.grid = this.container.querySelector(`.${type}-grid-3x3`);
         this.prevBtn = this.container.querySelector('.prev-btn');
         this.nextBtn = this.container.querySelector('.next-btn');
-        this.indicators = this.container.querySelector('.gallery-indicators, .video-indicators');
+        this.indicators = this.container.querySelector(`.${type}-indicators`);
         
-        this.itemsPerPage = this.getItemsPerPage();
+        // Grid configuration
+        this.itemsPerPage = 9; // 3x3 grid
         this.currentPage = 0;
-        this.totalPages = Math.ceil(this.items.length / this.itemsPerPage);
+        this.items = [];
+        this.totalPages = 0;
+        
+        // Animation state
+        this.isAnimating = false;
         
         this.init();
-        this.bindResize();
-    }
-    
-    getItemsPerPage() {
-        // Determine items per page based on screen size and section
-        const width = window.innerWidth;
-        const isVideoSection = this.container.classList.contains('video-container') || 
-                               this.container.querySelector('.video-grid');
-        
-        if (width <= 375) return 1;      // Extra small screens
-        if (width <= 480) return 2;      // Small screens  
-        if (width <= 768) {              // Tablets
-            return isVideoSection ? 6 : 3;  // Video: 3×2, Gallery: 3×1
-        }
-        
-        // Desktop - Video: 5×2=10, Gallery: 3×2=6
-        return isVideoSection ? 10 : 6;
-    }
-    
-    bindResize() {
-        window.addEventListener('resize', () => {
-            const newItemsPerPage = this.getItemsPerPage();
-            if (newItemsPerPage !== this.itemsPerPage) {
-                this.itemsPerPage = newItemsPerPage;
-                this.totalPages = Math.ceil(this.items.length / this.itemsPerPage);
-                this.currentPage = 0; // Reset to first page
-                this.createIndicators();
-                this.showPage(0);
-            }
-        });
     }
     
     init() {
+        console.log(`Initializing ${this.type} carousel...`);
+        
+        this.loadItems();
+        this.createGrid();
         this.createIndicators();
         this.bindEvents();
-        this.updateNavigation();
         
-        // Force initial state - hide all items first
-        this.items.forEach(item => item.classList.add('hidden'));
+        // Ensure all items start hidden
+        this.items.forEach(item => {
+            item.classList.add('hidden');
+            item.style.opacity = '0';
+        });
         
-        // Then show page 0
-        this.showPage(0);
+        // Show first page after a brief delay
+        setTimeout(() => {
+            this.showPage(0);
+        }, 50);
+        
+        this.bindResize();
+        
+        console.log(`${this.type} carousel initialized with ${this.items.length} items, ${this.totalPages} pages`);
+    }
+    
+    loadItems() {
+        // Load items based on type
+        if (this.type === 'gallery') {
+            this.items = this.createGalleryItems();
+        } else {
+            this.items = this.createVideoItems();
+        }
+        
+        this.totalPages = Math.ceil(this.items.length / this.itemsPerPage);
+    }
+    
+    createGalleryItems() {
+        const galleryData = [
+            { src: 'pics/optimized/pic1.jpg', webp: 'pics/optimized/pic1.webp', title: 'Artisan Creation', desc: 'Handcrafted with precision and love' },
+            { src: 'pics/optimized/pic2.jpg', webp: 'pics/optimized/pic2.webp', title: 'Custom Design', desc: 'Tailored to your special occasion' },
+            { src: 'pics/optimized/pic3.jpg', webp: 'pics/optimized/pic3.webp', title: 'Elegant Artistry', desc: 'Where beauty meets delicious flavor' },
+            { src: 'pics/optimized/pic4.jpg', webp: 'pics/optimized/pic4.webp', title: 'Premium Quality', desc: 'Only the finest ingredients used' },
+            { src: 'pics/optimized/pic5.jpg', webp: 'pics/optimized/pic5.webp', title: 'Signature Style', desc: 'Our unique touch in every creation' },
+            { src: 'pics/optimized/pic6.jpg', title: 'Wedding Masterpiece', desc: 'Making wedding dreams come true' },
+            { src: 'pics/optimized/pic7.jpg', title: 'Birthday Celebration', desc: 'Creating memorable birthday moments' },
+            { src: 'pics/optimized/pic8.jpg', title: 'Luxury Tiers', desc: 'Sophisticated multi-tier designs' },
+            { src: 'pics/optimized/pic9.jpg', title: 'Artistic Design', desc: 'Where cake becomes art' },
+            { src: 'pics/optimized/pic10.jpg', title: 'Gourmet Creation', desc: 'Exquisite flavors and textures' },
+            { src: 'pics/optimized/pic11.jpg', title: 'Themed Celebration', desc: 'Custom designs for every theme' },
+            { src: 'pics/optimized/pic12.jpg', title: 'Elegant Wedding', desc: 'Classic designs with modern touches' },
+            { src: 'pics/optimized/pic13.jpg', title: 'Anniversary Special', desc: 'Celebrating years of love' },
+            { src: 'pics/optimized/pic14.jpg', title: 'Custom Artistry', desc: 'Bringing your vision to life' }
+        ];
+        
+        return galleryData.map((item, index) => {
+            const article = document.createElement('article');
+            article.className = 'gallery-item hidden';
+            article.setAttribute('data-index', index);
+            
+            const pictureHtml = item.webp ? `
+                <picture>
+                    <source srcset="${item.webp}" type="image/webp">
+                    <img src="${item.src}" alt="${item.title}" loading="lazy">
+                </picture>
+            ` : `
+                <img src="${item.src}" alt="${item.title}" loading="lazy">
+            `;
+            
+            article.innerHTML = `
+                ${pictureHtml}
+                <div class="gallery-overlay">
+                    <h3>${item.title}</h3>
+                    <p>${item.desc}</p>
+                </div>
+            `;
+            
+            // Add click event for modal
+            article.addEventListener('click', () => this.openImageModal(item, index));
+            
+            return article;
+        });
+    }
+    
+    createVideoItems() {
+        const videoData = [
+            { src: 'vids/optimized/vid1.mp4', poster: 'pics/optimized/pic1.webp', title: 'Cake Decorating Basics', desc: 'Learn fundamental decorating techniques' },
+            { src: 'vids/optimized/vid2.mp4', poster: 'pics/optimized/pic2.webp', title: 'Fondant Artistry', desc: 'Creating smooth fondant finishes' },
+            { src: 'vids/optimized/vid3.mp4', poster: 'pics/optimized/pic3.webp', title: 'Buttercream Flowers', desc: 'Piping beautiful buttercream roses' },
+            { src: 'vids/optimized/vid4.mp4', poster: 'pics/optimized/pic4.webp', title: 'Sugar Work Magic', desc: 'Advanced sugar art techniques' },
+            { src: 'vids/optimized/vid5.mp4', poster: 'pics/optimized/pic5.webp', title: 'Wedding Cake Assembly', desc: 'Professional wedding cake construction' },
+            { src: 'vids/optimized/vid6.mp4', poster: 'pics/optimized/pic1.webp', title: 'Chocolate Drip Cakes', desc: 'Perfect chocolate drip technique' },
+            { src: 'vids/optimized/vid7.mp4', poster: 'pics/optimized/pic2.webp', title: 'Naked Cake Styling', desc: 'Rustic and elegant naked cakes' },
+            { src: 'vids/optimized/vid8.mp4', poster: 'pics/optimized/pic3.webp', title: 'Chocolate Work', desc: 'Tempering and molding chocolate elements' },
+            { src: 'vids/optimized/vid9.mp4', poster: 'pics/optimized/pic4.webp', title: 'Tier Assembly', desc: 'Professional multi-tier cake construction' },
+            { src: 'vids/optimized/vid10.mp4', poster: 'pics/optimized/pic5.webp', title: 'Color Mixing', desc: 'Achieving perfect color matches in icing' },
+            { src: 'vids/optimized/vid11.mp4', poster: 'pics/optimized/pic1.webp', title: 'Texture Techniques', desc: 'Creating realistic textures on cakes' },
+            { src: 'vids/optimized/vid12.mp4', poster: 'pics/optimized/pic2.webp', title: 'Wedding Cake Prep', desc: 'Planning and preparing for wedding orders' },
+            { src: 'vids/optimized/vid13.mp4', poster: 'pics/optimized/pic3.webp', title: 'Birthday Themes', desc: 'Creative birthday cake design ideas' },
+            { src: 'vids/optimized/vid14.mp4', poster: 'pics/optimized/pic4.webp', title: 'Pastry Basics', desc: 'French pastry fundamentals' },
+            { src: 'vids/optimized/vid15.mp4', poster: 'pics/optimized/pic5.webp', title: 'Cream Fillings', desc: 'Perfect creams and fillings for layers' },
+            { src: 'vids/optimized/vid16.mp4', poster: 'pics/optimized/pic1.webp', title: 'Ganache Glazing', desc: 'Smooth and glossy ganache techniques' },
+            { src: 'vids/optimized/vid17.mp4', poster: 'pics/optimized/pic2.webp', title: 'Decoration Ideas', desc: 'Creative decoration inspiration' },
+            { src: 'vids/optimized/vid1.mp4', poster: 'pics/optimized/pic3.webp', title: 'Advanced Techniques', desc: 'Professional level cake artistry' }
+        ];
+        
+        return videoData.slice(0, 18).map((item, index) => {
+            const article = document.createElement('article');
+            article.className = 'video-item hidden';
+            article.setAttribute('data-index', index);
+            
+            article.innerHTML = `
+                <video muted preload="metadata" poster="${item.poster}">
+                    <source src="${item.src}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            `;
+            
+            // Add click event for modal
+            article.addEventListener('click', () => this.openVideoModal(item, index));
+            
+            return article;
+        });
+    }
+    
+    createGrid() {
+        // Clear existing content
+        this.grid.innerHTML = '';
+        
+        // Add all items to the grid
+        this.items.forEach(item => {
+            this.grid.appendChild(item);
+        });
     }
     
     createIndicators() {
@@ -867,6 +887,10 @@ class Carousel {
         });
         
         // Touch/swipe support
+        this.bindTouchEvents();
+    }
+    
+    bindTouchEvents() {
         let startX = 0;
         let endX = 0;
         
@@ -888,29 +912,78 @@ class Carousel {
         });
     }
     
-    showPage(page) {
-        if (page < 0 || page >= this.totalPages) return;
+    bindResize() {
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                this.handleResize();
+            }, 100);
+        });
+    }
+    
+    handleResize() {
+        // Responsive grid adjustments
+        const width = window.innerWidth;
+        let newItemsPerPage;
         
+        if (width <= 375) {
+            newItemsPerPage = 1;
+        } else if (width <= 480) {
+            newItemsPerPage = 1;
+        } else if (width <= 768) {
+            newItemsPerPage = 4; // 2x2 grid
+        } else {
+            newItemsPerPage = 9; // 3x3 grid
+        }
+        
+        if (newItemsPerPage !== this.itemsPerPage) {
+            this.itemsPerPage = newItemsPerPage;
+            this.totalPages = Math.ceil(this.items.length / this.itemsPerPage);
+            this.currentPage = Math.min(this.currentPage, this.totalPages - 1);
+            this.createIndicators();
+            this.showPage(this.currentPage);
+        }
+    }
+    
+    showPage(page) {
+        if (page < 0 || page >= this.totalPages || this.isAnimating) return;
+        
+        console.log(`${this.type} carousel: showing page ${page}`);
+        
+        this.isAnimating = true;
         this.currentPage = page;
         
-        // Hide all items first
+        // Hide all items immediately
         this.items.forEach((item, index) => {
             item.classList.add('hidden');
+            item.style.opacity = '0';
+            item.style.transform = 'scale(0.8)';
+            item.style.animation = 'none';
         });
         
-        // Show items for current page
+        // Show items for current page with staggered animation
         const startIndex = page * this.itemsPerPage;
         const endIndex = Math.min(startIndex + this.itemsPerPage, this.items.length);
         
-        for (let i = startIndex; i < endIndex; i++) {
-            if (this.items[i]) {
-                this.items[i].classList.remove('hidden');
-                this.items[i].style.animation = 'fadeInUp 0.6s ease forwards';
+        setTimeout(() => {
+            for (let i = startIndex; i < endIndex; i++) {
+                if (this.items[i]) {
+                    this.items[i].classList.remove('hidden');
+                    this.items[i].style.opacity = '1';
+                    this.items[i].style.transform = 'scale(1)';
+                    this.items[i].style.animation = `fadeInUp 0.6s ease ${(i - startIndex) * 0.1}s forwards`;
+                }
             }
-        }
-        
-        this.updateIndicators();
-        this.updateNavigation();
+            
+            this.updateIndicators();
+            this.updateNavigation();
+            
+            // Reset animation state
+            setTimeout(() => {
+                this.isAnimating = false;
+            }, 800);
+        }, 100);
     }
     
     updateIndicators() {
@@ -924,34 +997,67 @@ class Carousel {
     
     updateNavigation() {
         if (this.prevBtn) {
-            this.prevBtn.style.opacity = this.currentPage === 0 ? '0.5' : '1';
+            this.prevBtn.style.opacity = this.currentPage === 0 ? '0.3' : '1';
             this.prevBtn.disabled = this.currentPage === 0;
         }
         
         if (this.nextBtn) {
-            this.nextBtn.style.opacity = this.currentPage === this.totalPages - 1 ? '0.5' : '1';
+            this.nextBtn.style.opacity = this.currentPage === this.totalPages - 1 ? '0.3' : '1';
             this.nextBtn.disabled = this.currentPage === this.totalPages - 1;
         }
     }
     
     nextPage() {
-        if (this.currentPage < this.totalPages - 1) {
+        if (this.currentPage < this.totalPages - 1 && !this.isAnimating) {
             this.showPage(this.currentPage + 1);
         }
     }
     
     previousPage() {
-        if (this.currentPage > 0) {
+        if (this.currentPage > 0 && !this.isAnimating) {
             this.showPage(this.currentPage - 1);
         }
     }
     
-    addItems(newItems) {
-        // Method to add new items dynamically
-        newItems.forEach(item => this.grid.appendChild(item));
-        this.items = this.grid.querySelectorAll('.gallery-item, .video-item:not(.placeholder-item)');
-        this.totalPages = Math.ceil(this.items.length / this.itemsPerPage);
-        this.createIndicators();
-        this.updateNavigation();
+    openImageModal(item, index) {
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDescription = document.getElementById('modalDescription');
+        
+        if (modal && modalImage) {
+            modalImage.src = item.src;
+            modalImage.alt = item.title;
+            modalTitle.textContent = item.title;
+            modalDescription.textContent = item.desc;
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+    }
+    
+    openVideoModal(item, index) {
+        const modal = document.getElementById('videoModal');
+        const modalVideo = document.getElementById('modalVideo');
+        const modalTitle = document.getElementById('videoModalTitle');
+        const modalDescription = document.getElementById('videoModalDescription');
+        
+        if (modal && modalVideo) {
+            modalVideo.src = item.src;
+            modalTitle.textContent = item.title;
+            modalDescription.textContent = item.desc;
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            // Auto-play video with delay
+            setTimeout(() => {
+                try {
+                    modalVideo.play();
+                } catch(e) {
+                    console.log('Could not autoplay video:', e);
+                }
+            }, 300);
+        }
     }
 }
