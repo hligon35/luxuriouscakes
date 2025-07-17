@@ -46,11 +46,31 @@
     color: var(--primary-color) !important;
 }
 
+.hero-name-gradient {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 600;
+    text-shadow: none;
+}
+
 .hero-subtitle {
     font-size: 1.5rem;
     font-weight: 300;
     margin-bottom: 1rem;
     color: var(--accent-color);
+}
+
+.hero-bio {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+    color: var(--black);
+    opacity: 0.95;
+    font-style: italic;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .hero-description {
