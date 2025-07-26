@@ -1,11 +1,17 @@
-let galleryImages = [];
+
+// Hardcoded image list for static gallery
+let galleryImages = [
+  'IMG_1080.webp',
+  'IMG_4634.webp',
+  'IMG_3626.webp',
+  // Add more image filenames from your pics folder as needed
+];
 let currentIndex = 0;
 
 function renderGallery() {
   const gallery = document.querySelector('.gallery');
   const galleryScroll = document.querySelector('.gallery-scroll');
   if (!gallery || !galleryScroll) return;
-  // Get the width of the visible area (gallery-scroll)
   const visibleWidth = galleryScroll.offsetWidth;
   gallery.style.transform = `translateX(-${currentIndex * visibleWidth}px)`;
 }
@@ -15,21 +21,14 @@ function updateGallery() {
   if (!gallery) return;
   gallery.innerHTML = galleryImages.map(img => `
     <div class="gallery-item">
-      <img src="/pics/${img}" alt="Cake Gallery Image">
+      <img src="pics/${img}" alt="Cake Gallery Image">
     </div>
   `).join('');
   renderGallery();
 }
 
-fetch('/api/gallery')
-  .then(res => res.json())
-  .then(images => {
-    galleryImages = images;
-    currentIndex = 0;
-    updateGallery();
-  });
-
 window.addEventListener('DOMContentLoaded', () => {
+  updateGallery();
   const leftBtn = document.querySelector('.gallery-btn.left');
   const rightBtn = document.querySelector('.gallery-btn.right');
   if (!leftBtn || !rightBtn) return;
@@ -44,6 +43,5 @@ window.addEventListener('DOMContentLoaded', () => {
     currentIndex = (currentIndex + 1) % galleryImages.length;
     renderGallery();
   });
-  // Re-render on window resize to keep images centered
   window.addEventListener('resize', renderGallery);
 });
