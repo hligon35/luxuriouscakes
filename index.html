@@ -5,109 +5,174 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Handcrafted Cakes | Luxurious Cakes</title>
   <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     html, body {
       overflow-x: hidden;
       width: 100vw;
       box-sizing: border-box;
     }
+    *, *::before, *::after {
+      box-sizing: inherit;
+    }
   </style>
 </head>
 <body>
   <header class="site-header">
-    <img src="lux header.png" alt="Luxurious Cakes Banner" class="header-banner">
+    <div class="header-container">
+      <img src="lux header.png" alt="Luxurious Cakes Banner" class="header-banner">
+    </div>
   </header>
 
   <section class="intro-section">
-    <div class="intro-content">
-      <div class="intro-photo">
-        <img src="pics/noncake/crowncake.png" alt="Crown Cake" class="crown-cake-img">
-      </div>
-      <div class="intro-text">
-        <h2>Handcrafted cakes, cupcakes, and more.</h2>
-        <p>Made with love and the finest ingredients. Perfect for birthdays, weddings, and special occasions. Custom designs available upon request.</p>
-        <p>Serving Indianapolis and surrounding areas. Freshly baked, beautifully decorated, and always delicious.</p>
-      </div>
-      <div class="intro-photo">
-        <img src="pics/noncake/cakes.png" alt="Assorted Cakes" class="crown-cake-img">
+    <div class="container">
+      <div class="intro-content">
+        <div class="intro-photo fade-in-left">
+          <img src="pics/noncake/crowncake.png" alt="Crown Cake" class="intro-image">
+        </div>
+        <div class="intro-text fade-in-up">
+          <h2 class="section-title">Handcrafted cakes, cupcakes, and more.</h2>
+          <p class="intro-description">Made with love and the finest ingredients. Perfect for birthdays, weddings, and special occasions. Custom designs available upon request.</p>
+          <p class="intro-description">Serving Indianapolis and surrounding areas. Freshly baked, beautifully decorated, and always delicious.</p>
+        </div>
+        <div class="intro-photo fade-in-right">
+          <img src="pics/noncake/cakes.png" alt="Assorted Cakes" class="intro-image">
+        </div>
       </div>
     </div>
   </section>
   <section class="about-section">
-    <div class="about-content">
-      <div class="about-photo">
-        <img src="pics/noncake/AlondraFam.webp" alt="Alondra Estrada and Family">
-      </div>
-      <div class="about-text">
-        <h2>Meet the Baker</h2>
-        <p>Alondra Estrada has always had a passion for baking, turning simple ingredients into moments of joy for friends and family. Her journey began in her family kitchen, where she discovered the magic of cakes and pastries. Today, Alondra pours her heart into every creation, sharing her love for baking with the world through Luxurious Cakes. Each treat is a reflection of her dedication, creativity, and the happiness she finds in making others smile.</p>
+    <div class="container">
+      <div class="about-content">
+        <div class="about-photo fade-in-left">
+          <img src="pics/noncake/AlondraFam.webp" alt="Alondra Estrada and Family" class="about-image">
+        </div>
+        <div class="about-text fade-in-right">
+          <h2 class="section-title">Meet the Baker</h2>
+          <p class="about-description">Alondra Estrada has always had a passion for baking, turning simple ingredients into moments of joy for friends and family. Her journey began in her family kitchen, where she discovered the magic of cakes and pastries. Today, Alondra pours her heart into every creation, sharing her love for baking with the world through Luxurious Cakes. Each treat is a reflection of her dedication, creativity, and the happiness she finds in making others smile.</p>
+        </div>
       </div>
     </div>
   </section>
   <main>
-    <section class="products">
-      <h2>Our Products</h2>
-      <div class="product-list">
-        <div class="product">
-          <img src="pics/IMG_1080.webp" alt="Cakes">
-          <h2>Handcrafted Cupcakes</h2>
-          <div class="price">$0.00 <span></span></div>
+    <section class="products-section">
+      <div class="container">
+        <h2 class="section-title text-center">Our Products</h2>
+        <div class="product-grid">
+          <div class="product-card fade-in-up">
+            <div class="product-image-wrapper">
+              <img src="pics/IMG_1080.webp" alt="Handcrafted Cupcakes" class="product-image">
+              <div class="product-overlay">
+                <span class="overlay-text">View Details</span>
+              </div>
+            </div>
+            <div class="product-info">
+              <h3 class="product-title">Handcrafted Cupcakes</h3>
+              <div class="product-price">Contact for Pricing</div>
+            </div>
+          </div>
+          <div class="product-card fade-in-up">
+            <div class="product-image-wrapper">
+              <img src="pics/IMG_4634.webp" alt="Character Cakes" class="product-image">
+              <div class="product-overlay">
+                <span class="overlay-text">View Details</span>
+              </div>
+            </div>
+            <div class="product-info">
+              <h3 class="product-title">Character Cakes</h3>
+              <div class="product-price">Contact for Pricing</div>
+            </div>
+          </div>
+          <div class="product-card fade-in-up">
+            <div class="product-image-wrapper">
+              <img src="pics/IMG_3626.webp" alt="Wedding Cakes" class="product-image">
+              <div class="product-overlay">
+                <span class="overlay-text">View Details</span>
+              </div>
+            </div>
+            <div class="product-info">
+              <h3 class="product-title">Wedding Cakes</h3>
+              <div class="product-price">Contact for Pricing</div>
+            </div>
+          </div>
         </div>
-        <div class="product">
-          <img src="pics/IMG_4634.webp" alt="Cupcakes">
-          <h2>Character Cakes</h2>
-          <div class="price">$0.00 <span></span></div>
-        </div>
-        <div class="product">
-          <img src="pics/IMG_3626.webp" alt="Character Cakes">
-          <h2>Wedding Cakes</h2>
-          <div class="price">$0.00 <span></span></div>
-        </div>
-      </div>
-      <!-- <div class="promo">
-        <h3>SEASONAL PROMO SPECIALS<br><span>15% OFF</span></h3>
-        <p>On selected designs. Order now and sweeten your day!</p>
-        <div class="promo-price">$0.00 <span>MXN</span></div>
-        <button>ORDER NOW</button>
-      </div> -->
       </div>
     </section>
     <section class="gallery-section">
-      <h2>Gallery</h2>
-      <div class="gallery-controls">
-        <button class="gallery-btn left" aria-label="Scroll left">&#8592;</button>
-        <div class="gallery-scroll">
-          <div class="gallery"></div>
+      <div class="container">
+        <h2 class="section-title text-center">Gallery</h2>
+        
+        <!-- Image Gallery -->
+        <div class="gallery-wrapper">
+          <h3 class="gallery-subtitle">Photos</h3>
+          <div class="gallery-controls">
+            <button class="gallery-btn gallery-btn--left" aria-label="Previous image" data-gallery="images">
+              <span class="btn-icon">&#8592;</span>
+            </button>
+            <div class="gallery-scroll">
+              <div class="gallery" id="image-gallery"></div>
+            </div>
+            <button class="gallery-btn gallery-btn--right" aria-label="Next image" data-gallery="images">
+              <span class="btn-icon">&#8594;</span>
+            </button>
+          </div>
         </div>
-        <button class="gallery-btn right" aria-label="Scroll right">&#8594;</button>
+        
+        <!-- Video Gallery -->
+        <div class="gallery-wrapper">
+          <h3 class="gallery-subtitle">Videos</h3>
+          <div class="gallery-controls">
+            <button class="gallery-btn gallery-btn--left" aria-label="Previous video" data-gallery="videos">
+              <span class="btn-icon">&#8592;</span>
+            </button>
+            <div class="gallery-scroll">
+              <div class="gallery" id="video-gallery"></div>
+            </div>
+            <button class="gallery-btn gallery-btn--right" aria-label="Next video" data-gallery="videos">
+              <span class="btn-icon">&#8594;</span>
+            </button>
+          </div>
+        </div>
       </div>
     </section>
-    <section class="features">
-      <div class="feature">
-        <span class="feature-icon">&#x1F370;</span>
-        <h3>Custom Flavors</h3>
-        <p>Variety of flavors. Every bite, a delight.</p>
-      </div>
-      <div class="feature">
-        <span class="feature-icon">&#x2764;</span>
-        <h3>Made with Love</h3>
-        <p>Handcrafted with care and passion.</p>
-      </div>
-      <div class="feature">
-        <span class="feature-icon">&#x2709;</span>
-        <h3>Fast Orders</h3>
-        <p>Message us to place yours.</p>
+    <section class="features-section">
+      <div class="container">
+        <div class="features-grid">
+          <div class="feature-card fade-in-up">
+            <div class="feature-icon">&#x1F370;</div>
+            <h3 class="feature-title">Custom Flavors</h3>
+            <p class="feature-description">Variety of flavors. Every bite, a delight.</p>
+          </div>
+          <div class="feature-card fade-in-up">
+            <div class="feature-icon">&#x2764;</div>
+            <h3 class="feature-title">Made with Love</h3>
+            <p class="feature-description">Handcrafted with care and passion.</p>
+          </div>
+          <div class="feature-card fade-in-up">
+            <div class="feature-icon">&#x2709;</div>
+            <h3 class="feature-title">Fast Orders</h3>
+            <p class="feature-description">Message us to place yours.</p>
+          </div>
+        </div>
       </div>
     </section>
   </main>
-  <section class="contact">
-    <h2>Contact Us</h2>
-    <p>For orders and inquiries, email us at <a href="mailto:luxuriouscakesindy@gmail.com">luxuriouscakesindy@gmail.com</a></p>
+  <section class="contact-section">
+    <div class="container">
+      <h2 class="section-title text-center">Contact Us</h2>
+      <p class="contact-text">For orders and inquiries, email us at 
+        <a href="mailto:info@luxuriouscakesindy.com" class="contact-link">info@luxuriouscakesindy.com</a>
+      </p>
+    </div>
   </section>
-  <footer>
-    <p>&copy; 2025 Luxurious Cakes. All rights reserved.</p>
+  
+  <footer class="site-footer">
+    <div class="container">
+      <p class="footer-text">&copy; 2025 Luxurious Cakes. All rights reserved.</p>
+      <p class="footer-text">Website by <a href="https://getsparqd.com" target="_blank">SparQ Digital Media Management Company</a></p>
+    </div>
   </footer>
+  
+  <script src="gallery.js"></script>
 </body>
 </html>
-</body>
-<script src="gallery.js"></script>
